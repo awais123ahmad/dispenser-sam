@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
-import patientService from "../../../Services/patientService"; // Assuming this fetches patient data
+import patientService from "../../Services/patientService"; // Assuming this fetches patient data
 import toast from "react-hot-toast";
 
 const SaleMedicine = () => {

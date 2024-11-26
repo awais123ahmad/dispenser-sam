@@ -432,6 +432,41 @@ export default function PortalLayout({ children }) {
                 </div>
 
                 <ul className={`${open1[1] ? "" : "hidden"} w-[100%]`}>
+                 
+                  <li>
+                    <div
+                      onClick={() => route("/dispensaries/dispensary")}
+                      className={`flex items-center p-2 cursor-pointer  text-gray-600 mt-3 h-[2.6rem] ${
+                        location.pathname === "/dispensaries/dispensary"
+                          ? "bg-gray-800 text-white mr-2 rounded-md font-[600]"
+                          : " mr-2 rounded-md"
+                      }  ${open ? "ml-6" : "ml-0"}  `}
+                    >
+                      <Inventory2Icon
+                        className={`!text-5xl ${
+                          open ? "mr-4" : "mr-auto ml-2 hover:!text-[3.5rem]"
+                        } rounded-full p-[12px] ml-[-1.2rem] ${
+                          location.pathname === "/dispensaries/dispensary"
+                            ? "bg-white text-gray-600"
+                            : ""
+                        } `}
+                        sx={{
+                          boxShadow:
+                            location.pathname === "/dispensaries/dispensary"
+                              ? "2px 5px 10px rgba(0, 0, 0, 0.2)"
+                              : "",
+                        }}
+                      />
+                      <span
+                        className={`flex-1 font-[600]  text-left ml-[2px] text-[13px] ${
+                          !open ? "hidden" : "block"
+                        }`}
+                      >
+                        Dashboard
+                      </span>
+                    </div>
+                  </li>
+
                   <li>
                     <div
                       onClick={() => route("/dispensaries/dispensary")}

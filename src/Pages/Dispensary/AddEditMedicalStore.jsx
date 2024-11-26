@@ -1,19 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { Button, Divider, Grid, TextField, MenuItem, Select, InputLabel, FormControl } from "@mui/material";
-import patientService from "../../../Services/patientService";
+import patientService from "../../Services/patientService";
 import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
-import doctorService from "../../../Services/doctorService";
-import medicineService from "../../../Services/medicineService";
+import doctorService from "../../Services/doctorService";
+import medicineService from "../../Services/medicineService";
 
 const AddEditMedicalStore = () => {
   const [patientData, setPatientData] = useState({
     medicine_name: "",
     quantity_in_stock: "",
-    price: "",
+    price_per_unit: "",
     expiry_date: "",
-    supplier_name: "",
-    storage_conditions: ""
+    supplier: ""
   });
 
   const [doctorData, setDoctorData] = useState([]); 
@@ -62,7 +61,7 @@ const AddEditMedicalStore = () => {
         toast.success("Medicine updated successfully!");
       } else {
         await medicineService.create(patientData);
-        toast.success("Medicine added successfully!");
+        toast.success("Patient added successfully!");
       }
       navigate("/patients");
     } catch (error) {
@@ -110,25 +109,12 @@ const AddEditMedicalStore = () => {
         <div className="grid grid-cols-3 gap-10 my-[20px]">
         <div>
             <TextField
-              label="Sale Price"
+              label="Price per Unit"
               variant="outlined"
               fullWidth
               type="number"
-              name="price"
-              value={patientData.price}
-              onChange={handleChange}
-              required
-            />
-          </div>
-
-          <div>
-            <TextField
-              label="Purchase Price"
-              variant="outlined"
-              fullWidth
-              type="number"
-              name="price"
-              value={patientData.price}
+              name="price_per_unit"
+              value={patientData.price_per_unit}
               onChange={handleChange}
               required
             />
@@ -153,8 +139,8 @@ const AddEditMedicalStore = () => {
               label="Supplier"
               variant="outlined"
               fullWidth
-              name="supplier_name"
-              value={patientData.supplier_name}
+              name="supplier"
+              value={patientData.supplier}
               onChange={handleChange}
               required
             />
