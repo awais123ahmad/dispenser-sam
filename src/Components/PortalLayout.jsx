@@ -168,7 +168,7 @@ export default function PortalLayout({ children }) {
 
   return (
     <>
-      {location.pathname === "/login" ? (
+      {location.pathname === "/" ? (
         children
       ) : (
         <>
@@ -276,168 +276,15 @@ export default function PortalLayout({ children }) {
                 />
               </div>
 
-              <div className="px-4">
-                <div
-                  onClick={() => route("/")}
-                  className={`flex items-center p-2 cursor-pointer  text-gray-600 mt-3 h-[2.6rem] ${
-                    location.pathname === "/"
-                      ? "bg-gray-800 text-white mr-2 rounded-md font-[600]"
-                      : " mr-2 rounded-md"
-                  }`}
-                >
-                  <SpaceDashboardIcon
-                    className={`!text-5xl ${
-                      open ? "mr-4" : "mr-auto ml-2 hover:!text-[3.5rem]"
-                    } rounded-full p-[12px] ml-[-1.2rem] ${
-                      location.pathname === "/" ? "bg-white text-gray-600" : ""
-                    } `}
-                    sx={{
-                      boxShadow:
-                        location.pathname === "/"
-                          ? "2px 5px 10px rgba(0, 0, 0, 0.2)"
-                          : "",
-                    }}
-                  />
-                  <span
-                    className={`flex-1 font-[600] text-left ml-[2px] text-[14px] ${
-                      !open ? "hidden" : "block"
-                    }`}
-                  >
-                    Dashboard
-                  </span>
-                </div>
-                
-                <div
-                  class
-                  onClick={() => handleSelection(0)}
-                  className={`flex items-center p-2 cursor-pointer  text-gray-600 mt-3 h-[2.6rem]`}
-                >
-                  <FaUserInjured
-                    className={`!text-5xl ${
-                      open ? "mr-4" : "mr-auto ml-2 hover:!text-[3.5rem]"
-                    } rounded-full p-[12px] ml-[-1.2rem]`}
-                  />
-                  <span
-                    className={`flex-1 font-[600] text-left ml-[2px] text-[14px] ${
-                      !open ? "hidden" : "block"
-                    }`}
-                  >
-                    Patients
-                  </span>
-                  <IoIosArrowDown
-                    className={`w-4 h-4 ${
-                      open1[0]
-                        ? "-rotate-180 duration-300"
-                        : "rotate-0 duration-300"
-                    }   ${!open ? "hidden" : "block"}  `}
-                  />
-                </div>
-                <ul className={`${open1[0] ? "" : "hidden"} w-[100%]`}>
-                  
-                  <li>
-                    <div
-                      onClick={() => route("/patient/patientdashboard")}
-                      className={`flex items-center p-2 cursor-pointer  text-gray-600 mt-3 h-[2.6rem] ${
-                        location.pathname === "/patient/patientdashboard" ||
-                        location.pathname === "/patient/patientdashboard/add"
-                          ? "bg-gray-800 text-white mr-2 rounded-md font-[600]"
-                          : " mr-2 rounded-md"
-                      }  ${open ? "ml-6" : "ml-0"}  `}
-                    >
-                      <SpaceDashboardIcon
-                        className={`!text-5xl ${
-                          open ? "mr-4" : "mr-auto ml-2 hover:!text-[3.5rem]"
-                        } rounded-full p-[12px] ml-[-1.2rem] ${
-                          location.pathname === "/patient/patientdashboard"
-                            ? "bg-white text-gray-600"
-                            : ""
-                        } `}
-                        sx={{
-                          boxShadow:
-                            location.pathname === "/patient/patientdashboard"
-                              ? "2px 5px 10px rgba(0, 0, 0, 0.2)"
-                              : "",
-                        }}
-                      />
-                      <span
-                        className={`flex-1 font-[600]  text-left ml-[2px] text-[13px] ${
-                          !open ? "hidden" : "block"
-                        }`}
-                      >
-                        Patient Dashboard
-                      </span>
-                    </div>
-                  </li>
+              <div>
 
-                  <li>
-                    <div
-                      onClick={() => route("/patient/patients")}
-                      className={`flex items-center p-2 cursor-pointer  text-gray-600 mt-3 h-[2.6rem] ${
-                        location.pathname === "/patient/patients" ||
-                        location.pathname === "/patient/patients/add"
-                          ? "bg-gray-800 text-white mr-2 rounded-md font-[600]"
-                          : " mr-2 rounded-md"
-                      }  ${open ? "ml-6" : "ml-0"}  `}
-                    >
-                      <Inventory2Icon
-                        className={`!text-5xl ${
-                          open ? "mr-4" : "mr-auto ml-2 hover:!text-[3.5rem]"
-                        } rounded-full p-[12px] ml-[-1.2rem] ${
-                          location.pathname === "/patient/patients"
-                            ? "bg-white text-gray-600"
-                            : ""
-                        } `}
-                        sx={{
-                          boxShadow:
-                            location.pathname === "/patient/patients"
-                              ? "2px 5px 10px rgba(0, 0, 0, 0.2)"
-                              : "",
-                        }}
-                      />
-                      <span
-                        className={`flex-1 font-[600]  text-left ml-[2px] text-[13px] ${
-                          !open ? "hidden" : "block"
-                        }`}
-                      >
-                        Patients
-                      </span>
-                    </div>
-                  </li>
-       
-                </ul>
-
-                <div
-                  onClick={() => handleSelection(1)}
-                  className={`flex items-center p-2 cursor-pointer  text-gray-600 mt-3 h-[2.6rem]`}
-                >
-                  <BadgeIcon
-                    className={`!text-5xl ${
-                      open ? "mr-4" : "mr-auto ml-2 hover:!text-[3.5rem]"
-                    } rounded-full p-[12px] ml-[-1.2rem]`}
-                  />
-                  <span
-                    className={`flex-1 font-[600] text-left ml-[2px] text-[14px] ${
-                      !open ? "hidden" : "block"
-                    }`}
-                  >
-                    Dispensaries
-                  </span>
-                  <IoIosArrowDown
-                    className={`w-4 h-4 ${
-                      open1[1]
-                        ? "-rotate-180 duration-300"
-                        : "rotate-0 duration-300"
-                    }   ${!open ? "hidden" : "block"}  `}
-                  />
-                </div>
-
-                <ul className={`${open1[1] ? "" : "hidden"} w-[100%]`}>
+                <ul className={`w-[100%]`}>
                  
                   <li>
                     <div
-                      onClick={() => route("/dispensaries/dispensary")}
+                      onClick={() => route("/dashboard")}
                       className={`flex items-center p-2 cursor-pointer  text-gray-600 mt-3 h-[2.6rem] ${
-                        location.pathname === "/dispensaries/dispensary"
+                        location.pathname === "/dashboard"
                           ? "bg-gray-800 text-white mr-2 rounded-md font-[600]"
                           : " mr-2 rounded-md"
                       }  ${open ? "ml-6" : "ml-0"}  `}
@@ -446,13 +293,13 @@ export default function PortalLayout({ children }) {
                         className={`!text-5xl ${
                           open ? "mr-4" : "mr-auto ml-2 hover:!text-[3.5rem]"
                         } rounded-full p-[12px] ml-[-1.2rem] ${
-                          location.pathname === "/dispensaries/dispensary"
+                          location.pathname === "/dashboard"
                             ? "bg-white text-gray-600"
                             : ""
                         } `}
                         sx={{
                           boxShadow:
-                            location.pathname === "/dispensaries/dispensary"
+                            location.pathname === "/dashboard"
                               ? "2px 5px 10px rgba(0, 0, 0, 0.2)"
                               : "",
                         }}
@@ -469,9 +316,9 @@ export default function PortalLayout({ children }) {
 
                   <li>
                     <div
-                      onClick={() => route("/dispensaries/dispensary")}
+                      onClick={() => route("/dispensary")}
                       className={`flex items-center p-2 cursor-pointer  text-gray-600 mt-3 h-[2.6rem] ${
-                        location.pathname === "/dispensaries/dispensary"
+                        location.pathname === "/dispensary"
                           ? "bg-gray-800 text-white mr-2 rounded-md font-[600]"
                           : " mr-2 rounded-md"
                       }  ${open ? "ml-6" : "ml-0"}  `}
@@ -480,13 +327,13 @@ export default function PortalLayout({ children }) {
                         className={`!text-5xl ${
                           open ? "mr-4" : "mr-auto ml-2 hover:!text-[3.5rem]"
                         } rounded-full p-[12px] ml-[-1.2rem] ${
-                          location.pathname === "/dispensaries/dispensary"
+                          location.pathname === "/dispensary"
                             ? "bg-white text-gray-600"
                             : ""
                         } `}
                         sx={{
                           boxShadow:
-                            location.pathname === "/dispensaries/dispensary"
+                            location.pathname === "/dispensary"
                               ? "2px 5px 10px rgba(0, 0, 0, 0.2)"
                               : "",
                         }}
@@ -503,378 +350,6 @@ export default function PortalLayout({ children }) {
                   
                 </ul>
 
-                <div
-                  onClick={() => handleSelection(3)}
-                  className={`flex items-center p-2 cursor-pointer  text-gray-600 mt-3 h-[2.6rem]`}
-                >
-                  <AccountCircleIcon
-                    className={`!text-5xl ${
-                      open ? "mr-4" : "mr-auto ml-2 hover:!text-[3.5rem]"
-                    } rounded-full p-[12px] ml-[-1.2rem]`}
-                  />
-                  <span
-                    className={`flex-1 font-[600] text-left ml-[2px] text-[14px] ${
-                      !open ? "hidden" : "block"
-                    }`}
-                  >
-                    Admin
-                  </span>
-
-                  <IoIosArrowDown
-                    className={`w-4 h-4 ${
-                      open1[3]
-                        ? "-rotate-180 duration-300"
-                        : "rotate-0 duration-300"
-                    }   ${!open ? "hidden" : "block"}  `}
-                  />
-                </div>
-                
-                <ul className={`${open1[3] ? "" : "hidden"} w-[100%]`}>
-
-                  <li>
-                    <div
-                      onClick={() => route("/admin/admindasboard")}
-                      className={`flex items-center p-2 cursor-pointer  text-gray-600 mt-3 h-[2.6rem] ${
-                        location.pathname === "/admin/admindasboard" ||
-                        location.pathname === "/admin/admindasboard/add"
-                          ? "bg-gray-800 text-white mr-2 rounded-md font-[600]"
-                          : " mr-2 rounded-md"
-                      }  ${open ? "ml-6" : "ml-0"}  `}
-                    >
-                      <PeopleAltRounded
-                        className={`!text-5xl ${
-                          open ? "mr-4" : "mr-auto ml-2 hover:!text-[3.5rem]"
-                        } rounded-full p-[12px] ml-[-1.2rem] ${
-                          location.pathname === "/admin/admindasboard"
-                            ? "bg-white text-gray-600"
-                            : ""
-                        } `}
-                        sx={{
-                          boxShadow:
-                            location.pathname === "/admin/admindasboard"
-                              ? "2px 5px 10px rgba(0, 0, 0, 0.2)"
-                              : "",
-                        }}
-                      />
-                      <span
-                        className={`flex-1 font-[600]  text-left ml-[2px] text-[13px] ${
-                          !open ? "hidden" : "block"
-                        }`}
-                      >
-                        Admin Dashboard
-                      </span>
-                    </div>
-                  </li>
-
-                  <li>
-                    <div
-                      onClick={() => route("/admin/register")}
-                      className={`flex items-center p-2 cursor-pointer  text-gray-600 mt-3 h-[2.6rem] ${
-                        location.pathname === "/admin/register" ||
-                        location.pathname === "/admin/register/add"
-                          ? "bg-gray-800 text-white mr-2 rounded-md font-[600]"
-                          : " mr-2 rounded-md"
-                      }  ${open ? "ml-6" : "ml-0"}  `}
-                    >
-                      <PeopleAltRounded
-                        className={`!text-5xl ${
-                          open ? "mr-4" : "mr-auto ml-2 hover:!text-[3.5rem]"
-                        } rounded-full p-[12px] ml-[-1.2rem] ${
-                          location.pathname === "/admin/register"
-                            ? "bg-white text-gray-600"
-                            : ""
-                        } `}
-                        sx={{
-                          boxShadow:
-                            location.pathname === "/admin/register"
-                              ? "2px 5px 10px rgba(0, 0, 0, 0.2)"
-                              : "",
-                        }}
-                      />
-                      <span
-                        className={`flex-1 font-[600]  text-left ml-[2px] text-[13px] ${
-                          !open ? "hidden" : "block"
-                        }`}
-                      >
-                        Register Users
-                      </span>
-                    </div>
-                  </li>
-
-                  <li>
-                    <div
-                      onClick={() => route("/admin/staff")}
-                      className={`flex items-center p-2 cursor-pointer  text-gray-600 mt-3 h-[2.6rem] ${
-                        location.pathname === "/admin/staff" ||
-                        location.pathname === "/admin/staff/AddEditStaff"
-                          ? "bg-gray-800 text-white mr-2 rounded-md font-[600]"
-                          : " mr-2 rounded-md"
-                      }  ${open ? "ml-6" : "ml-0"}  `}
-                    >
-                      <PeopleAltRounded
-                        className={`!text-5xl ${
-                          open ? "mr-4" : "mr-auto ml-2 hover:!text-[3.5rem]"
-                        } rounded-full p-[12px] ml-[-1.2rem] ${
-                          location.pathname === "/admin/staff"
-                            ? "bg-white text-gray-600"
-                            : ""
-                        } `}
-                        sx={{
-                          boxShadow:
-                            location.pathname === "/admin/staff"
-                              ? "2px 5px 10px rgba(0, 0, 0, 0.2)"
-                              : "",
-                        }}
-                      />
-                      <span
-                        className={`flex-1 font-[600]  text-left ml-[2px] text-[13px] ${
-                          !open ? "hidden" : "block"
-                        }`}
-                      >
-                        Manage Staff
-                      </span>
-                    </div>
-                  </li>
-
-                  <li>
-                    <div
-                      onClick={() => route("/admin/doctor")}
-                      className={`flex items-center p-2 cursor-pointer  text-gray-600 mt-3 h-[2.6rem] ${
-                        location.pathname === "/admin/doctor" ||
-                        location.pathname === "/admin/doctor/add"
-                          ? "bg-gray-800 text-white mr-2 rounded-md font-[600]"
-                          : " mr-2 rounded-md"
-                      }  ${open ? "ml-6" : "ml-0"}  `}
-                    >
-                      <FaFirstAid
-                        className={`!text-5xl ${
-                          open ? "mr-4" : "mr-auto ml-2 hover:!text-[3.5rem]"
-                        } rounded-full p-[12px] ml-[-1.2rem] ${
-                          location.pathname === "/admin/doctor"
-                            ? "bg-white text-gray-600"
-                            : ""
-                        } `}
-                        sx={{
-                          boxShadow:
-                            location.pathname === "/admin/doctor"
-                              ? "2px 5px 10px rgba(0, 0, 0, 0.2)"
-                              : "",
-                        }}
-                      />
-                      <span
-                        className={`flex-1 font-[600]  text-left ml-[2px] text-[13px] ${
-                          !open ? "hidden" : "block"
-                        }`}
-                      >
-                        Manage Doctors
-                      </span>
-                    </div>
-                  </li>
-                  <li>
-                    <div
-                      onClick={() => route("/admin/patients")}
-                      className={`flex items-center p-2 cursor-pointer  text-gray-600 mt-3 h-[2.6rem] ${
-                        location.pathname === "/admin/patients" ||
-                        location.pathname === "/admin/patients/add"
-                          ? "bg-gray-800 text-white mr-2 rounded-md font-[600]"
-                          : " mr-2 rounded-md"
-                      }  ${open ? "ml-6" : "ml-0"}  `}
-                    >
-                      <FaUserInjured
-                        className={`!text-5xl ${
-                          open ? "mr-4" : "mr-auto ml-2 hover:!text-[3.5rem]"
-                        } rounded-full p-[12px] ml-[-1.2rem] ${
-                          location.pathname === "/admin/patients"
-                            ? "bg-white text-gray-600"
-                            : ""
-                        } `}
-                        sx={{
-                          boxShadow:
-                            location.pathname === "/admin/patients"
-                              ? "2px 5px 10px rgba(0, 0, 0, 0.2)"
-                              : "",
-                        }}
-                      />
-                      <span
-                        className={`flex-1 font-[600]  text-left ml-[2px] text-[13px] ${
-                          !open ? "hidden" : "block"
-                        }`}
-                      >
-                         Patients
-                      </span>
-                    </div>
-                  </li>
-
-                  <li>
-                    <div
-                      onClick={() => route("/admin/medicines")}
-                      className={`flex items-center p-2 cursor-pointer  text-gray-600 mt-3 h-[2.6rem] ${
-                        location.pathname === "/admin/medicines" ||
-                        location.pathname === "/admin/medicines/add"
-                          ? "bg-gray-800 text-white mr-2 rounded-md font-[600]"
-                          : " mr-2 rounded-md"
-                      }  ${open ? "ml-6" : "ml-0"}  `}
-                    >
-                      <MedicalInformation
-                        className={`!text-5xl ${
-                          open ? "mr-4" : "mr-auto ml-2 hover:!text-[3.5rem]"
-                        } rounded-full p-[12px] ml-[-1.2rem] ${
-                          location.pathname === "/admin/medicines"
-                            ? "bg-white text-gray-600"
-                            : ""
-                        } `}
-                        sx={{
-                          boxShadow:
-                            location.pathname === "/admin/medicines"
-                              ? "2px 5px 10px rgba(0, 0, 0, 0.2)"
-                              : "",
-                        }}
-                      />
-                      <span
-                        className={`flex-1 font-[600]  text-left ml-[2px] text-[13px] ${
-                          !open ? "hidden" : "block"
-                        }`}
-                      >
-                        Medicines
-                      </span>
-                    </div>
-                  </li>
-                  
-                </ul> 
-              
-                <div
-                  onClick={() => handleSelection(4)}
-                  className={`flex items-center p-2 cursor-pointer  text-gray-600 mt-3 h-[2.6rem]`}
-                >
-                  <AccountCircleIcon
-                    className={`!text-5xl ${
-                      open ? "mr-4" : "mr-auto ml-2 hover:!text-[3.5rem]"
-                    } rounded-full p-[12px] ml-[-1.2rem]`}
-                  />
-                  <span
-                    className={`flex-1 font-[600] text-left ml-[2px] text-[14px] ${
-                      !open ? "hidden" : "block"
-                    }`}
-                  >
-                    Account
-                  </span>
-
-                  <IoIosArrowDown
-                    className={`w-4 h-4 ${
-                      open1[4]
-                        ? "-rotate-180 duration-300"
-                        : "rotate-0 duration-300"
-                    }   ${!open ? "hidden" : "block"}  `}
-                  />
-                </div>
-
-                <ul className={`${open1[4] ? "" : "hidden"} w-[100%]`}>
-
-                  <li>
-                    <div
-                      onClick={() => route("/account/purchasemedicine")}
-                      className={`flex items-center p-2 cursor-pointer  text-gray-600 mt-3 h-[2.6rem] ${
-                        location.pathname === "/account/purchasemedicine" ||
-                        location.pathname === "/account/purchasemedicine/add"
-                          ? "bg-gray-800 text-white mr-2 rounded-md font-[600]"
-                          : " mr-2 rounded-md"
-                      }  ${open ? "ml-6" : "ml-0"}  `}
-                    >
-                      <Inventory2Icon
-                        className={`!text-5xl ${
-                          open ? "mr-4" : "mr-auto ml-2 hover:!text-[3.5rem]"
-                        } rounded-full p-[12px] ml-[-1.2rem] ${
-                          location.pathname === "/account/purchasemedicine"
-                            ? "bg-white text-gray-600"
-                            : ""
-                        } `}
-                        sx={{
-                          boxShadow:
-                            location.pathname === "/account/purchasemedicine"
-                              ? "2px 5px 10px rgba(0, 0, 0, 0.2)"
-                              : "",
-                        }}
-                      />
-                      <span
-                        className={`flex-1 font-[600]  text-left ml-[2px] text-[13px] ${
-                          !open ? "hidden" : "block"
-                        }`}
-                      >
-                        Purchase Medicine
-                      </span>
-                    </div>
-                  </li>
-
-                  <li>
-                    <div
-                      onClick={() => route("/account/income")}
-                      className={`flex items-center p-2 cursor-pointer  text-gray-600 mt-3 h-[2.6rem] ${
-                        location.pathname === "/account/income" ||
-                        location.pathname === "/account/income/add"
-                          ? "bg-gray-800 text-white mr-2 rounded-md font-[600]"
-                          : " mr-2 rounded-md"
-                      }  ${open ? "ml-6" : "ml-0"}  `}
-                    >
-                      <CleanHandsIcon
-                        className={`!text-5xl ${
-                          open ? "mr-4" : "mr-auto ml-2 hover:!text-[3.5rem]"
-                        } rounded-full p-[12px] ml-[-1.2rem] ${
-                          location.pathname === "/account/income"
-                            ? "bg-white text-gray-600"
-                            : ""
-                        } `}
-                        sx={{
-                          boxShadow:
-                            location.pathname === "/account/income"
-                              ? "2px 5px 10px rgba(0, 0, 0, 0.2)"
-                              : "",
-                        }}
-                      />
-                      <span
-                        className={`flex-1 font-[600]  text-left ml-[2px] text-[13px] ${
-                          !open ? "hidden" : "block"
-                        }`}
-                      >
-                        Income
-                      </span>
-                    </div>
-                  </li>
-                  <li>
-                    <div
-                      onClick={() => route("/account/expense")}
-                      className={`flex items-center p-2 cursor-pointer  text-gray-600 mt-3 h-[2.6rem] ${
-                        location.pathname === "/account/expense" ||
-                        location.pathname === "/account/expense/add"
-                          ? "bg-gray-800 text-white mr-2 rounded-md font-[600]"
-                          : " mr-2 rounded-md"
-                      }  ${open ? "ml-6" : "ml-0"}  `}
-                    >
-                      <PaidIcon
-                        className={`!text-5xl ${
-                          open ? "mr-4" : "mr-auto ml-2 hover:!text-[3.5rem]"
-                        } rounded-full p-[12px] ml-[-1.2rem] ${
-                          location.pathname === "/account/expense"
-                            ? "bg-white text-gray-600"
-                            : ""
-                        } `}
-                        sx={{
-                          boxShadow:
-                            location.pathname === "/account/expense"
-                              ? "2px 5px 10px rgba(0, 0, 0, 0.2)"
-                              : "",
-                        }}
-                      />
-                      <span
-                        className={`flex-1 font-[600]  text-left ml-[2px] text-[13px] ${
-                          !open ? "hidden" : "block"
-                        }`}
-                      >
-                        Expense
-                      </span>
-                    </div>
-                  </li>
-                  
-                </ul> 
               </div>
             </Drawer>
             <Box component="main" sx={{ flexGrow: 1, p: 0 }}>

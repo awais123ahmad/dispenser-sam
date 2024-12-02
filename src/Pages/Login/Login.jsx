@@ -301,7 +301,7 @@ const Login = () => {
       const response = await userService.login(loginData); // Assume login method in userService
       toast.success("Login successful!");
       localStorage.setItem("user", JSON.stringify(response)); // Save user info in localStorage
-      navigate("/admin"); // Redirect to admin or dashboard page
+      navigate("/"); // Redirect to admin or dashboard page
     } catch (error) {
       toast.error(error.message || "Login failed. Please try again.");
     }
@@ -364,7 +364,7 @@ const Login = () => {
                       />
                     </div>
 
-                    <div className="relative top-8">
+                    {/* <div className="relative top-8">
                       <FormControl fullWidth required>
                         <InputLabel id="role-label">Role</InputLabel>
                         <Select
@@ -382,7 +382,7 @@ const Login = () => {
                           <MenuItem value="patient">Patient</MenuItem>
                         </Select>
                       </FormControl>
-                    </div>
+                    </div> */}
                     {/* Submit Button */}
                     <div className="relative top-6">
                       <Grid container style={{ justifyContent: "center", marginTop: "30px" }}>

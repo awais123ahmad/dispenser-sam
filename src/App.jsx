@@ -17,8 +17,8 @@ function App() {
     <BrowserRouter>
       <PortalLayout>
         <Routes>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/login" element={<LoginPage />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/" element={<LoginPage />} />
 
           {/* <Route path="/loginpage" element={<LoginPage />} /> */}
 
