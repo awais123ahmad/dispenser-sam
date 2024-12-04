@@ -9,40 +9,22 @@ import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import logo from "../assets/logo.png";
 
-import { FaFirstAid, FaUserInjured } from 'react-icons/fa';
-
 import { Popover, Transition } from "@headlessui/react";
 
 import { useLocation, useNavigate } from "react-router-dom";
 import { IoIosArrowDown } from "react-icons/io";
-import SpaceDashboardIcon from "@mui/icons-material/SpaceDashboard";
 import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 
-import BadgeIcon from "@mui/icons-material/Badge";
-import CategoryIcon from "@mui/icons-material/Category";
 import Inventory2Icon from "@mui/icons-material/Inventory2";
-import WarehouseIcon from "@mui/icons-material/Warehouse";
-import WindowIcon from "@mui/icons-material/Window";
-import AutoAwesomeMotionIcon from "@mui/icons-material/AutoAwesomeMotion";
-import SquareFootIcon from "@mui/icons-material/SquareFoot";
-import AspectRatioIcon from "@mui/icons-material/AspectRatio";
-import WidgetsIcon from "@mui/icons-material/Widgets";
-
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
-import CleanHandsIcon from "@mui/icons-material/CleanHands";
-import PaidIcon from "@mui/icons-material/Paid";
-import ReceiptIcon from "@mui/icons-material/Receipt";
-import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
-import PointOfSaleIcon from "@mui/icons-material/PointOfSale";
+
 import {
   SESSION_IS_AUTHENTICATED,
   SESSION_USERINFO,
 } from "../Utills/Constants";
 //import { useDispatch } from "react-redux";
-import { logout } from "../Api/Reducers/authReducer";
-import { MedicalInformation, PeopleAltRounded } from "@mui/icons-material";
+
 
 const drawerWidth = 240;
 
@@ -280,7 +262,7 @@ export default function PortalLayout({ children }) {
 
                 <ul className={`w-[100%]`}>
                  
-                  <li>
+                  {/* <li>
                     <div
                       onClick={() => route("/dashboard")}
                       className={`flex items-center p-2 cursor-pointer  text-gray-600 mt-3 h-[2.6rem] ${
@@ -312,7 +294,7 @@ export default function PortalLayout({ children }) {
                         Dashboard
                       </span>
                     </div>
-                  </li>
+                  </li> */}
 
                   <li>
                     <div
