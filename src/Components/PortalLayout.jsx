@@ -212,7 +212,7 @@ export default function PortalLayout({ children }) {
                 <img
                   src={logo}
                   alt=""
-                  className={`${open ? "w-[5rem]" : "w-[3rem]"} ml-auto mr-auto my-4`}
+                  className={`${open ? "w-[6rem]" : "w-[3rem]"} ml-auto mr-auto my-4`}
                 />
               </div>
               <div>
