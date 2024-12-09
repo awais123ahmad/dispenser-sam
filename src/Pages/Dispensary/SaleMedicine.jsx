@@ -306,7 +306,7 @@ const SaleMedicine = () => {
         })
       );
       toast.success("Sales added successfully!");
-      navigate("/patients");
+      navigate("/dispensary");
     } catch (error) {
       toast.error("Error saving sales.");
     }
