@@ -1,15 +1,22 @@
 import { useEffect, useState } from "react";
 import reactLogo from "./assets/react.svg";
 import "./index.css";
-import { Navigate, Route, Routes, Redirect, useLocation, useNavigate } from 'react-router-dom';
+import {
+  Navigate,
+  Route,
+  Routes,
+  Redirect,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 import PortalLayout from "./Components/PortalLayout";
-import Dashboard from "./Pages/Dashboard/Dashboard";
-import Cookies from 'js-cookie';
+import Cookies from "js-cookie";
 
 import MedicalStore from "./Pages/Dispensary/MedicalStore";
 import SaleMedicine from "./Pages/Dispensary/SaleMedicine";
 import LoginPage from "./Pages/Login/Login";
 import AddEditMedicalStore from "./Pages/Dispensary/AddEditMedicalStore";
+import { Toaster } from "react-hot-toast"; 
 
 function App() {
   const [count, setCount] = useState(0);
@@ -27,26 +34,28 @@ function App() {
   // Check authentication status on page load
   useEffect(() => {
     setIsAuthenticated(
-      Boolean(Cookies.get("XIOQUNVU1RPTUVSLUFVVEhFTlRJQ0FUSU9OIMSLQ1JFVC1LRVk="))
+      Boolean(
+        Cookies.get("XIOQUNVU1RPTUVSLUFVVEhFTlRJQ0FUSU9OIMSLQ1JFVC1LRVk=")
+      )
     );
   }, [location.pathname]);
 
   return (
- 
+    <>
+      <Toaster position="top-center" />
       <PortalLayout>
         <Routes>
-          
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/dashboard" element={isAuthenticated ? <Dashboard /> : <Navigate to="/" />} />
           <Route path="/" element={<LoginPage />} />
 
           <Route path="/dispensary" element={<MedicalStore />} />
-          <Route path="/dispensary/AddEditMedical" element={<AddEditMedicalStore />} />
+          <Route
+            path="/dispensary/AddEditMedical"
+            element={<AddEditMedicalStore />}
+          />
           <Route path="/dispensary/SaleMedicine" element={<SaleMedicine />} />
-
         </Routes>
       </PortalLayout>
-      
+    </>
   );
 }
 
