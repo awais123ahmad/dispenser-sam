@@ -18,11 +18,13 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 
 import Inventory2Icon from "@mui/icons-material/Inventory2";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import toast from "react-hot-toast";
+import Cookies from 'js-cookie';
 
-import {
-  SESSION_IS_AUTHENTICATED,
-  SESSION_USERINFO,
-} from "../Utills/Constants";
+// import {
+//   SESSION_IS_AUTHENTICATED,
+//   SESSION_USERINFO,
+// } from "../Utills/Constants";
 
 const drawerWidth = 240;
 
@@ -94,7 +96,7 @@ export default function PortalLayout({ children }) {
   const theme = useTheme();
   const [open, setOpen] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
-  const [auth, setAuth] = useState(sessionStorage.getItem(SESSION_IS_AUTHENTICATED));
+  //const [auth, setAuth] = useState(sessionStorage.getItem(SESSION_IS_AUTHENTICATED));
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -106,20 +108,36 @@ export default function PortalLayout({ children }) {
     setIsOpen(!isOpen);
   };
 
-  useEffect(() => {
-    if (auth === "false") {
-      navigate("/");
-    }
-  }, [auth, navigate]);
+  // useEffect(() => {
+  //   if (auth === "false") {
+  //     navigate("/");
+  //   }
+  // }, [auth, navigate]);
+
+  // const handleLogout = () => {
+  //   // Clear session storage
+  //   sessionStorage.removeItem(SESSION_IS_AUTHENTICATED);
+  //   sessionStorage.removeItem(SESSION_USERINFO);
+
+  //   // Navigate to the login page
+  //   navigate("/");
+  // };
 
   const handleLogout = () => {
-    // Clear session storage
-    sessionStorage.removeItem(SESSION_IS_AUTHENTICATED);
-    sessionStorage.removeItem(SESSION_USERINFO);
+    localStorage.removeItem('user')
+    Cookies.remove('XIOQUNVU1RPTUVSLUFVVEhFTlRJQ0FUSU9OIMSLQ1JFVC1LRVk=')
+    toast.success("Logout Successfully")
+    navigate('/login', { replace: true });
+  }
 
-    // Navigate to the login page
-    navigate("/");
-  };
+  const [userEmail, setUserEmail] = useState("");
+
+  useEffect(() => {
+    const email = sessionStorage.getItem("userEmail");
+    if (email) {
+      setUserEmail(email);
+    }
+  }, []);
 
   return (
     <>

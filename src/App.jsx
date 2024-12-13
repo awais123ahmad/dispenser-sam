@@ -14,48 +14,42 @@ import Cookies from "js-cookie";
 
 import MedicalStore from "./Pages/Dispensary/MedicalStore";
 import SaleMedicine from "./Pages/Dispensary/SaleMedicine";
-import LoginPage from "./Pages/Login/Login";
+import Login from "./Pages/Login/Login";
 import AddEditMedicalStore from "./Pages/Dispensary/AddEditMedicalStore";
 import { Toaster } from "react-hot-toast"; 
 
 function App() {
-  const [count, setCount] = useState(0);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const location = useLocation();
-  const navigate = useNavigate();
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const location = useLocation()
+  const navigate = useNavigate()
 
-  // Redirect to login if not authenticated
   useEffect(() => {
-    if (!isAuthenticated && location.pathname !== "/") {
-      navigate("/");
+    if (!isAuthenticated) {
+      navigate('/login')
     }
-  }, [isAuthenticated, location.pathname, navigate]);
+  }, [isAuthenticated])
 
-  // Check authentication status on page load
   useEffect(() => {
-    setIsAuthenticated(
-      Boolean(
-        Cookies.get("XIOQUNVU1RPTUVSLUFVVEhFTlRJQ0FUSU9OIMSLQ1JFVC1LRVk=")
-      )
-    );
-  }, [location.pathname]);
-
+    const token = Cookies.get("XIOQUNVU1RPTUVSLUFVVEhFTlRJQ0FUSU9OIMSLQ1JFVC1LRVk=");
+    if (token) {
+      setIsAuthenticated(true);  // User is authenticated
+    } else {
+      setIsAuthenticated(false); // No token found, set to false
+    }
+  }, [location.pathname]);  // Check authentication on path change
+  
   return (
-    <>
-      <Toaster position="top-center" />
-      <PortalLayout>
-        <Routes>
-          <Route path="/" element={<LoginPage />} />
+   
+          <Routes>
+          
+          <Route path="/" element={<Navigate to="/dispensary" replace />} />
 
-          <Route path="/dispensary" element={<MedicalStore />} />
-          <Route
-            path="/dispensary/AddEditMedical"
-            element={<AddEditMedicalStore />}
-          />
-          <Route path="/dispensary/SaleMedicine" element={<SaleMedicine />} />
-        </Routes>
-      </PortalLayout>
-    </>
+          <Route path="/dispensary" element={isAuthenticated ?  <PortalLayout> <MedicalStore /> </PortalLayout>  : <Navigate to="/login" />} />
+          <Route path="/login" element={!isAuthenticated ? <Login /> : <Navigate to="/dispensary" />} />
+          <Route path="/dispensary/AddEditMedical" element={isAuthenticated ?  <PortalLayout> <AddEditMedicalStore /> </PortalLayout> : <Navigate to="/login" />} />
+          <Route path="/dispensary/SaleMedicine" element={isAuthenticated ?  <PortalLayout> <SaleMedicine /> </PortalLayout> : <Navigate to="/login" />} />
+          
+          </Routes>
   );
 }
 
