@@ -8,23 +8,17 @@ import AddEditMedicalStore from "./Pages/Dispensary/AddEditMedicalStore";
 
 function App() {
   return (
-    // Set the base path to '/dispenser' for subdirectory deployment
     <BrowserRouter basename="/dispenser">
       <PortalLayout>
         <Routes>
-          {/* Login Page */}
-          <Route path="/" element={<LoginPage />} />
-
-          {/* Dashboard */}
+          {/* <Route path="/" element={<LoginPage />} /> */}
           <Route path="/dashboard" element={<Dashboard />} />
-
-          {/* Dispensary Routes */}
           <Route path="/dispensary" element={<MedicalStore />} />
           <Route
             path="/dispensary/add-edit-medical"
             element={<AddEditMedicalStore />}
           />
-          <Route path="/dispensary/sale-medicine" element={<SaleMedicine />} />
+          <Route path="/dispensary/SaleMedicine" element={<SaleMedicine />} />
         </Routes>
       </PortalLayout>
     </BrowserRouter>
