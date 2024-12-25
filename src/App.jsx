@@ -41,13 +41,12 @@ function App() {
   return (
    
           <Routes>
-          
-          <Route path="/" element={<Navigate to="/dispensary" replace />} />
-
-          <Route path="/dispensary" element={isAuthenticated ?  <PortalLayout> <MedicalStore /> </PortalLayout>  : <Navigate to="/login" />} />
-          <Route path="/login" element={!isAuthenticated ? <Login /> : <Navigate to="/dispensary" />} />
-          <Route path="/dispensary/AddEditMedical" element={isAuthenticated ?  <PortalLayout> <AddEditMedicalStore /> </PortalLayout> : <Navigate to="/login" />} />
-          <Route path="/dispensary/SaleMedicine" element={isAuthenticated ?  <PortalLayout> <SaleMedicine /> </PortalLayout> : <Navigate to="/login" />} />
+            
+          <Route path="/" element={<Navigate to="/dispenser" replace />} />
+          <Route path="/dispenser" element={isAuthenticated ?  <PortalLayout> <MedicalStore /> </PortalLayout>  : <Navigate to="/login" />} />
+          <Route path="/login" element={!isAuthenticated ? <Login /> : <Navigate to="/dispenser" />} />
+          <Route path="/dispenser/AddEditMedical" element={isAuthenticated ?  <PortalLayout> <AddEditMedicalStore /> </PortalLayout> : <Navigate to="/login" />} />
+          <Route path="/dispenser/SaleMedicine" element={isAuthenticated ?  <PortalLayout> <SaleMedicine /> </PortalLayout> : <Navigate to="/login" />} />
           
           </Routes>
   );
