@@ -51,7 +51,7 @@ const MedicalStore = () => {
   return (
     <div>
       <div className="p-4">
-        <h1 className="ml-[3%] text-[19px] text-gray-700 font-[700]">Medicine Table</h1>
+        <h1 className="ml-[3%] text-[19px] text-gray-700 font-[700]">Medicine Records</h1>
         <h1 className="ml-[3%] text-[13px] text-gray-700 mb-4">{filteredData?.length || 0} records found</h1>
         
         <div className="flex mt-8 flex-row-reverse justify-between px-[3%]">
@@ -61,8 +61,14 @@ const MedicalStore = () => {
             </button>
           </Link> */}
           <Link to='SaleMedicine'>
-            <button className="bg-[#a6a6a6] h-[2rem] px-4 rounded-md text-black font-[600] text-[14px]">
+            <button className="bg-[#a6a6a6] text-white h-[2rem] px-4 rounded-md font-[600] text-[14px]">
               + Sale Medicine
+            </button>
+          </Link>
+
+          <Link to='SaleServices'>
+            <button className="bg-[#f8f8f8] h-[2rem] px-4 rounded-md text-black font-[600] text-[14px] border-2">
+              + Sale Services
             </button>
           </Link>
           <div className="w-[40%]">
@@ -81,14 +87,12 @@ const MedicalStore = () => {
           <table className="w-[100%]">
             <thead>
               <tr className="text-[#101418] capitalize leading-normal">
-              <th className="py-[1%] w-[10%] text-[.8rem] text-gray-700 text-left pl-4">Medicine Id</th>
+                <th className="py-[1%] w-[10%] text-[.8rem] text-gray-700 text-left pl-4">Sr No.</th>
                 <th className="py-[1%] w-[20%] text-[.8rem] text-gray-700 text-left pl-4">Medicine Name</th>
                 <th className="py-[1%] w-[15%] text-[.8rem] text-gray-700 text-left">Qty</th>
                 <th className="py-[1%] w-[15%] text-[.8rem] text-gray-700 text-left">Price</th>
-                <th className="py-[1%] w-[15%] text-[.8rem] text-gray-700 text-left">Expiry Date</th>
                 <th className="py-[1%] w-[15%] text-[.8rem] text-gray-700 text-left">Supplier Name</th>
                 <th className="py-[1%] w-[10%] text-[.8rem] text-gray-700 text-left">Action</th>
-            
               </tr>
             </thead>
             <tbody>
@@ -97,18 +101,16 @@ const MedicalStore = () => {
                   <td className="py-[1%] w-[10%] text-left pl-4">
                     <p className="font-[600] text-gray-600 text-[14px]">{patient?.id}</p>
                   </td>
-                  <td className="w-[20%] text-left">
+                  <td className="w-[20%] text-left pl-4">
                     <p className="font-[600] text-gray-600 text-[14px]">{patient?.medicine_name}</p>
                   </td>
                   <td className="py-[2%] px-2 w-[15%] text-left">
                     <span className="font-[400]">{patient?.quantity_in_stock}</span>
                   </td>
-                  <td className="py-[2%] px-2 w-[15%] text-left">
+                  <td className="py-[2%] w-[15%] text-left">
                     <span className="font-[400]">{patient?.price}</span>
                   </td>
-                  <td className="py-[2%] px-2 w-[15%] text-left">
-                    <span className="font-[400]">{patient?.expiry_date}</span>
-                  </td>
+                
                   <td className="py-[2%] px-2 w-[15%] text-left">
                     <span className="font-[400]">{patient?.supplier_name}</span>
                   </td>
@@ -122,7 +124,7 @@ const MedicalStore = () => {
         </div>
 
         <PaginationComponent
-          data={filteredData}
+          filteredData={filteredData}
           setPaginatedData={setPaginatedData}
           itemsPerPage={itemsPerPage}
           currentPage={currentPage}

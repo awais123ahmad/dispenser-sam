@@ -18,13 +18,13 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 
 import Inventory2Icon from "@mui/icons-material/Inventory2";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import toast from "react-hot-toast";
+import Cookies from 'js-cookie';
 
-import {
-  SESSION_IS_AUTHENTICATED,
-  SESSION_USERINFO,
-} from "../Utills/Constants";
-//import { useDispatch } from "react-redux";
-
+// import {
+//   SESSION_IS_AUTHENTICATED,
+//   SESSION_USERINFO,
+// } from "../Utills/Constants";
 
 const drawerWidth = 240;
 
@@ -54,7 +54,6 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   alignItems: "center",
   justifyContent: "flex-end",
   padding: theme.spacing(0, 1),
-  // necessary for content to be below app bar
   ...theme.mixins.toolbar,
 }));
 
@@ -95,58 +94,50 @@ const Drawer = styled(MuiDrawer, {
 
 export default function PortalLayout({ children }) {
   const theme = useTheme();
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
+  //const [auth, setAuth] = useState(sessionStorage.getItem(SESSION_IS_AUTHENTICATED));
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const handleDrawer = () => {
     setOpen(!open);
   };
-  const route = useNavigate();
-  const location = useLocation();
-
-  const [isOpen, setIsOpen] = React.useState(false);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
-  const [out, setOut] = React.useState();
-  const handleClick = () => setOut(!open);
 
-  const [open1, setOpen1] = useState([
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-  ]);
-
-  const handleSelection = (index) => {
-    let op = [...open1];
-    op[index] = !op[index];
-    setOpen1(op);
-  };
-
-  const [auth, setAuth] = useState(
-    sessionStorage.getItem(SESSION_IS_AUTHENTICATED)
-  );
-  console.log(auth);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (auth === "false") {
-      route("/login");
-    }
-  }, []);
-
-  //const dispatch = useDispatch();
-  console.log("user info", sessionStorage.getItem(SESSION_USERINFO));
+  // useEffect(() => {
+  //   if (auth === "false") {
+  //     navigate("/");
+  //   }
+  // }, [auth, navigate]);
 
   // const handleLogout = () => {
-  //   dispatch(logout())
-  //   route('/login')
-  // }
+  //   // Clear session storage
+  //   sessionStorage.removeItem(SESSION_IS_AUTHENTICATED);
+  //   sessionStorage.removeItem(SESSION_USERINFO);
+
+  //   // Navigate to the login page
+  //   navigate("/");
+  // };
+
+  const handleLogout = () => {
+    localStorage.removeItem('user')
+    Cookies.remove('XIOQUNVU1RPTUVSLUFVVEhFTlRJQ0FUSU9OIMSLQ1JFVC1LRVk=')
+    toast.success("Logout Successfully")
+    navigate('/login', { replace: true });
+  }
+
+  const [userEmail, setUserEmail] = useState("");
+
+  useEffect(() => {
+    const email = sessionStorage.getItem("userEmail");
+    if (email) {
+      setUserEmail(email);
+    }
+  }, []);
 
   return (
     <>
@@ -170,23 +161,10 @@ export default function PortalLayout({ children }) {
                   edge="start"
                   sx={{ marginLeft: 1 }}
                 >
-                  <MenuIcon className="text-gray-600 mt-[4px] " />
+                  <MenuIcon className="text-gray-600 mt-[4px]" />
                 </IconButton>
-                {/* <div className="w-[50%] m-auto relative mt-[16px]">
-                                    <input
-                                        type="search"
-                                        className="w-full border-2 rounded-xl px-10 py-[4px] focus:outline-none text-gray-600"
-                                        placeholder="Search"
-                                    />
-                                    <SearchIcon className="absolute top-1/2 left-2 transform -translate-y-1/2 text-gray-600 " />
-                                </div> */}
-
                 <div className="ml-auto flex gap-2 items-center">
-                  <NotificationsIcon
-                    className="text-gray-600 "
-                    sx={{ fontSize: 20 }}
-                  />
-
+                  
                   <div className="flex items-center gap-2">
                     <AccountCircleIcon
                       className="text-gray-600 "
@@ -202,7 +180,7 @@ export default function PortalLayout({ children }) {
                             isOpen
                               ? "-rotate-180 duration-300"
                               : "rotate-0 duration-300"
-                          }    `}
+                          }`}
                         />
                       </Popover.Button>
                       <Transition
@@ -214,11 +192,11 @@ export default function PortalLayout({ children }) {
                         leaveFrom="transform scale-100"
                         leaveTo="transform scale-95"
                       >
-                        <Popover.Panel className="absolute right-10 bg-gray-50 border-2 border-gray-300 shadow-lg rounded-md  w-[150px] text-black">
+                        <Popover.Panel className="absolute right-10 bg-gray-50 border-2 border-gray-300 shadow-lg rounded-md w-[150px] text-black">
                           <div>
                             <div
                               className="flex text-gray-600 gap-6 p-2 cursor-pointer"
-                              //onClick={() => handleLogout()}
+                              onClick={handleLogout}
                             >
                               <PowerSettingsNewIcon className="text-gray-600" />
                               <h1>LogOut</h1>
@@ -252,76 +230,37 @@ export default function PortalLayout({ children }) {
                 <img
                   src={logo}
                   alt=""
-                  className={`${
-                    open ? "w-[5rem]" : "w-[3rem]"
-                  }  ml-auto mr-auto my-4`}
+                  className={`${open ? "w-[6rem]" : "w-[3rem]"} ml-auto mr-auto my-4`}
                 />
               </div>
-
               <div>
-
-                <ul className={`w-[100%]`}>
-                 
-                  {/* <li>
-                    <div
-                      onClick={() => route("/dashboard")}
-                      className={`flex items-center p-2 cursor-pointer  text-gray-600 mt-3 h-[2.6rem] ${
-                        location.pathname === "/dashboard"
-                          ? "bg-gray-800 text-white mr-2 rounded-md font-[600]"
-                          : " mr-2 rounded-md"
-                      }  ${open ? "ml-6" : "ml-0"}  `}
-                    >
-                      <Inventory2Icon
-                        className={`!text-5xl ${
-                          open ? "mr-4" : "mr-auto ml-2 hover:!text-[3.5rem]"
-                        } rounded-full p-[12px] ml-[-1.2rem] ${
-                          location.pathname === "/dashboard"
-                            ? "bg-white text-gray-600"
-                            : ""
-                        } `}
-                        sx={{
-                          boxShadow:
-                            location.pathname === "/dashboard"
-                              ? "2px 5px 10px rgba(0, 0, 0, 0.2)"
-                              : "",
-                        }}
-                      />
-                      <span
-                        className={`flex-1 font-[600]  text-left ml-[2px] text-[13px] ${
-                          !open ? "hidden" : "block"
-                        }`}
-                      >
-                        Dashboard
-                      </span>
-                    </div>
-                  </li> */}
-
+                <ul className="w-[100%]">
                   <li>
                     <div
-                      onClick={() => route("/dispensary")}
-                      className={`flex items-center p-2 cursor-pointer  text-gray-600 mt-3 h-[2.6rem] ${
-                        location.pathname === "/dispensary"
+                      onClick={() => navigate("/dispenser")}
+                      className={`flex items-center p-2 cursor-pointer text-gray-600 mt-3 h-[2.6rem] ${
+                        location.pathname === "/dispenser"
                           ? "bg-gray-800 text-white mr-2 rounded-md font-[600]"
                           : " mr-2 rounded-md"
-                      }  ${open ? "ml-6" : "ml-0"}  `}
+                      } ${open ? "ml-6" : "ml-0"}`}
                     >
                       <Inventory2Icon
                         className={`!text-5xl ${
                           open ? "mr-4" : "mr-auto ml-2 hover:!text-[3.5rem]"
                         } rounded-full p-[12px] ml-[-1.2rem] ${
-                          location.pathname === "/dispensary"
+                          location.pathname === "/dispenser"
                             ? "bg-white text-gray-600"
                             : ""
-                        } `}
+                        }`}
                         sx={{
                           boxShadow:
-                            location.pathname === "/dispensary"
+                            location.pathname === "/dispenser"
                               ? "2px 5px 10px rgba(0, 0, 0, 0.2)"
                               : "",
                         }}
                       />
                       <span
-                        className={`flex-1 font-[600]  text-left ml-[2px] text-[13px] ${
+                        className={`flex-1 font-[600] text-left ml-[2px] text-[13px] ${
                           !open ? "hidden" : "block"
                         }`}
                       >
@@ -329,20 +268,17 @@ export default function PortalLayout({ children }) {
                       </span>
                     </div>
                   </li>
-                  
                 </ul>
-
               </div>
             </Drawer>
             <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
               <DrawerHeader />
-
               <div
                 className={`${
                   location.pathname === "/login" || location.pathname === "/"
                     ? "p-4"
-                    : "bg-gray-100 min-h-[80vh]  p-6 rounded-xl m-4"
-                } `}
+                    : "bg-gray-100 min-h-[80vh] p-6 rounded-xl m-4 shadow-md"
+                }`}
               >
                 {children}
               </div>
@@ -353,3 +289,4 @@ export default function PortalLayout({ children }) {
     </>
   );
 }
+
