@@ -3,12 +3,22 @@ import axiosInstance from "./axiosInstance";
 const saleService = {
     create: async (payload) => {
         try {
-            const response = await axiosInstance.post('/sale/medicine/create', payload);
+            const response = await axiosInstance.post('/sale/medicine/create/medicine/quantity', payload);
             return response.data;
         } catch (error) {
             throw error.response.data;
         }
     },
+
+    saveSale: async (payload) => {
+        try {
+            const response = await axiosInstance.post('/create/medicine/quantity', payload);
+            return response.data;
+        } catch (error) {
+            throw error.response.data;
+        }
+    },
+
 
     save: async (payload) => {
         try {
