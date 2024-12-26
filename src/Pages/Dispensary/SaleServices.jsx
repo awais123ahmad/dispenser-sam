@@ -17,11 +17,12 @@ import { useNavigate } from "react-router-dom";
 import medicineService from "../../Services/medicineService";
 import doctorService from "../../Services/doctorService";
 import saleService from "../../Services/saleService";
+import medicalServices from "../../Services/medicalServices";
 
-const SaleMedicine = () => {
+const SaleServices = () => {
   const [salesRows, setSalesRows] = useState([
     {
-      stock_id: "",
+      services_id: "",
       quantity: "",
       unit_price: "",
     },
@@ -38,7 +39,6 @@ const SaleMedicine = () => {
   const [saleDate, setSaleDate] = useState(
     new Date().toISOString().split("T")[0] // Set current date as default
   );
-
   const [searchMedicineData, setSearchMedicineData] = useState("");
   const [selectedMedicine, setSelectedMedicine] = useState("");
   const [selectedMedicineId, setSelectedMedicineId] = useState(null);
@@ -46,8 +46,8 @@ const SaleMedicine = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const medicines = await medicineService.fetchAll();
-        setMedicineData(medicines.medicines || []);
+        const medicines = await medicalServices.fetchAll();
+        setMedicineData(medicines.services || []);
 
         // const patients = await patientService.fetchAllPatients();
         // console.log("Fetched patients data:", patients); // Debug log
@@ -78,7 +78,7 @@ const SaleMedicine = () => {
     const updatedRows = [...salesRows];
     updatedRows[index][field] = value;
 
-    if (field === "stock_id") {
+    if (field === "services_id") {
       const selectedMedicine = medicineData.find((med) => med.id === value);
       if (selectedMedicine) {
         updatedRows[index].unit_price = selectedMedicine.price;
@@ -90,7 +90,7 @@ const SaleMedicine = () => {
   const handleAddRow = () => {
     setSalesRows([
       ...salesRows,
-      { stock_id: "", quantity: "", unit_price: "" },
+      { services_id: "", quantity: "", unit_price: "" },
     ]);
   };
 
@@ -153,7 +153,7 @@ const SaleMedicine = () => {
     setSearchMedicineData(""); // Clear search input
     setMedicineData((prevData) => ({
       ...prevData,
-      stock_id: medicine.id, // Store patient_id in checkupData
+      services_id: medicine.id, // Store patient_id in checkupData
     }));
 
     // Ensure patient name is set correctly for the dialog confirmation
@@ -163,9 +163,8 @@ const SaleMedicine = () => {
   return (
     <form onSubmit={handleSubmit} className="w-[90%] m-auto">
       <h1 className="m-[30px] text-center font-[700] text-[20px]">
-        Record Sales
+        Record Medical Services Sale
       </h1>
-
       <div className="mt-10">
         <Grid container spacing={3} className="my-[20px] mb-">
           <Grid item xs={4}>
@@ -285,73 +284,73 @@ const SaleMedicine = () => {
           </Grid>
         </Grid>
 
-        <Divider sx={{ my: 3, borderBottomWidth: 1, backgroundColor: "black" }} />
+        <Divider
+          sx={{ my: 3, borderBottomWidth: 1, backgroundColor: "black" }}
+        />
 
-        <div className="text-center my-[30px]">
-          {salesRows.map((row, index) => (
-            <Grid container spacing={3} key={index} className="my-[20px]">
-              <Grid item xs={4}>
-                <FormControl fullWidth>
-                  <InputLabel>Medicine Name</InputLabel>
-                  <Select
-                    label="Medicine Name"
-                    value={row.stock_id}
-                    onChange={(e) =>
-                      handleRowChange(index, "stock_id", e.target.value)
-                    }
-                    required
-                  >
-                    {medicineData.map((medicine) => (
-                      <MenuItem key={medicine.id} value={medicine.id}>
-                        {medicine.medicine_name}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-              </Grid>
-
-              <Grid item xs={2}>
-                <TextField
-                  label="Quantity"
-                  type="number"
-                  fullWidth
-                  value={row.quantity}
+        {salesRows.map((row, index) => (
+          <Grid container spacing={3} key={index} className="my-[20px]">
+            <Grid item xs={4}>
+              <FormControl fullWidth>
+                <InputLabel>Medical Services</InputLabel>
+                <Select
+                  label="Medical Services"
+                  value={row.services_id}
                   onChange={(e) =>
-                    handleRowChange(index, "quantity", e.target.value)
+                    handleRowChange(index, "services_id", e.target.value)
                   }
                   required
-                />
-              </Grid>
-
-              <Grid item xs={2}>
-                <TextField
-                  label="Unit Price"
-                  type="number"
-                  fullWidth
-                  value={row.unit_price}
-                  onChange={(e) =>
-                    handleRowChange(index, "unit_price", e.target.value)
-                  }
-                  required
-                />
-              </Grid>
-
-              <Grid item xs={12}>
-                <IconButton color="primary" onClick={handleAddRow}>
-                  <Add />
-                </IconButton>
-                {salesRows.length > 1 && (
-                  <IconButton
-                    color="secondary"
-                    onClick={() => handleRemoveRow(index)}
-                  >
-                    <Remove />
-                  </IconButton>
-                )}
-              </Grid>
+                >
+                  {medicineData.map((medicine) => (
+                    <MenuItem key={medicine.id} value={medicine.id}>
+                      {medicine.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
             </Grid>
-          ))}
-        </div>
+
+            <Grid item xs={2}>
+              <TextField
+                label="Quantity"
+                type="number"
+                fullWidth
+                value={row.quantity}
+                onChange={(e) =>
+                  handleRowChange(index, "quantity", e.target.value)
+                }
+                required
+              />
+            </Grid>
+
+            <Grid item xs={2}>
+              <TextField
+                label="Price"
+                type="number"
+                fullWidth
+                value={row.unit_price}
+                onChange={(e) =>
+                  handleRowChange(index, "unit_price", e.target.value)
+                }
+                required
+              />
+            </Grid>
+
+            <Grid item xs={12}>
+              <IconButton color="primary" onClick={handleAddRow}>
+                <Add />
+              </IconButton>
+              {salesRows.length > 1 && (
+                <IconButton
+                  color="secondary"
+                  onClick={() => handleRemoveRow(index)}
+                >
+                  <Remove />
+                </IconButton>
+              )}
+            </Grid>
+          </Grid>
+        ))}
 
         <div className="text-center my-[30px]">
           <Button type="submit" variant="contained" color="primary">
@@ -363,4 +362,4 @@ const SaleMedicine = () => {
   );
 };
 
-export default SaleMedicine;
+export default SaleServices;

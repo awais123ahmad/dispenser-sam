@@ -17,6 +17,7 @@ import SaleMedicine from "./Pages/Dispensary/SaleMedicine";
 import Login from "./Pages/Login/Login";
 import AddEditMedicalStore from "./Pages/Dispensary/AddEditMedicalStore";
 import { Toaster } from "react-hot-toast"; 
+import SaleServices from "./Pages/Dispensary/SaleServices";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
@@ -47,7 +48,8 @@ function App() {
           <Route path="/login" element={!isAuthenticated ? <Login /> : <Navigate to="/dispenser" />} />
           <Route path="/dispenser/AddEditMedical" element={isAuthenticated ?  <PortalLayout> <AddEditMedicalStore /> </PortalLayout> : <Navigate to="/login" />} />
           <Route path="/dispenser/SaleMedicine" element={isAuthenticated ?  <PortalLayout> <SaleMedicine /> </PortalLayout> : <Navigate to="/login" />} />
-          
+          <Route path="/dispenser/SaleServices" element={isAuthenticated ?  <PortalLayout> <SaleServices /> </PortalLayout> : <Navigate to="/login" />} />
+         
           </Routes>
   );
 }

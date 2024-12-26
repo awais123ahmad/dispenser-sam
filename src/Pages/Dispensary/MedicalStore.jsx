@@ -61,8 +61,14 @@ const MedicalStore = () => {
             </button>
           </Link> */}
           <Link to='SaleMedicine'>
-            <button className="bg-[#a6a6a6] h-[2rem] px-4 rounded-md text-black font-[600] text-[14px]">
+            <button className="bg-[#a6a6a6] text-white h-[2rem] px-4 rounded-md font-[600] text-[14px]">
               + Sale Medicine
+            </button>
+          </Link>
+
+          <Link to='SaleServices'>
+            <button className="bg-[#f8f8f8] h-[2rem] px-4 rounded-md text-black font-[600] text-[14px] border-2">
+              + Sale Services
             </button>
           </Link>
           <div className="w-[40%]">
@@ -118,7 +124,7 @@ const MedicalStore = () => {
         </div>
 
         <PaginationComponent
-          data={filteredData}
+          filteredData={filteredData}
           setPaginatedData={setPaginatedData}
           itemsPerPage={itemsPerPage}
           currentPage={currentPage}
