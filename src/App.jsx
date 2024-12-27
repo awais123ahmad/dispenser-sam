@@ -31,7 +31,7 @@ function App() {
   }, [isAuthenticated])
 
   useEffect(() => {
-    const token = Cookies.get("XIOQUNVU1RPTUVSLUFVVEhFTlRJQ0FUSU9OIMSLQ1JFVC1LRVk=");
+    const token = Cookies.get("RVkXIOQUNVU1RPTUVSLUFVVEhFTlRJQ0FUSU9OIMSLQ1JFVC1L=");
     if (token) {
       setIsAuthenticated(true);  // User is authenticated
     } else {

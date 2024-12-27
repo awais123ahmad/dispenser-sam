@@ -36,7 +36,7 @@ const Login = () => {
       toast.success("Login successful!");
       // Set authentication cookie
       Cookies.set(
-        "XIOQUNVU1RPTUVSLUFVVEhFTlRJQ0FUSU9OIMSLQ1JFVC1LRVk=",
+        "RVkXIOQUNVU1RPTUVSLUFVVEhFTlRJQ0FUSU9OIMSLQ1JFVC1L=",
         response.token,
         { expires: 1 }
       );
