@@ -92,7 +92,6 @@ const MedicalStore = () => {
                 <th className="py-[1%] w-[15%] text-[.8rem] text-gray-700 text-left">Qty</th>
                 <th className="py-[1%] w-[15%] text-[.8rem] text-gray-700 text-left">Price</th>
                 <th className="py-[1%] w-[15%] text-[.8rem] text-gray-700 text-left">Supplier Name</th>
-                <th className="py-[1%] w-[10%] text-[.8rem] text-gray-700 text-left">Action</th>
               </tr>
             </thead>
             <tbody>
@@ -114,9 +113,7 @@ const MedicalStore = () => {
                   <td className="py-[2%] px-2 w-[15%] text-left">
                     <span className="font-[400]">{patient?.supplier_name}</span>
                   </td>
-                  <td className="py-[2%] w-[10%] text-left">
-                    <p className="text-[13px] font-[500] text-gray-600">Edit</p>
-                  </td>
+                  
                 </tr>
               ))}
             </tbody>

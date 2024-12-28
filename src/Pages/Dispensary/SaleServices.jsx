@@ -250,7 +250,7 @@ const SaleServices = () => {
               </FormControl>
             </Grid>
 
-            <Grid item xs={2}>
+            <Grid item xs={4}>
               <TextField
                 label="Sale Date"
                 type="date"
@@ -262,7 +262,7 @@ const SaleServices = () => {
               />
             </Grid>
 
-            <Grid item xs={2}>
+            {/* <Grid item xs={2}>
               <TextField
                 label="Invoice Number"
                 type="text"
@@ -272,7 +272,7 @@ const SaleServices = () => {
                 placeholder="Enter Invoice Number"
                 required
               />
-            </Grid>
+            </Grid> */}
           </Grid>
 
           <Divider
@@ -323,6 +323,9 @@ const SaleServices = () => {
                   onChange={(e) =>
                     handleRowChange(index, "unit_price", e.target.value)
                   }
+                  InputProps={{
+                    readOnly: true,
+                  }}
                   required
                 />
               </Grid>
