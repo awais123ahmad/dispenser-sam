@@ -125,7 +125,7 @@ export default function PortalLayout({ children }) {
 
   const handleLogout = () => {
     localStorage.removeItem('user')
-    Cookies.remove('XIOQUNVU1RPTUVSLUFVVEhFTlRJQ0FUSU9OIMSLQ1JFVC1LRVk=')
+    Cookies.remove('RVkXIOQUNVU1RPTUVSLUFVVEhFTlRJQ0FUSU9OIMSLQ1JFVC1L=')
     toast.success("Logout Successfully")
     navigate('/login', { replace: true });
   }
