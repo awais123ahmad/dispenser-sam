@@ -11,6 +11,7 @@ const InvoiceModal = ({
   doctorName,
   servicesName,
   patientId,
+  invoiceNumber,
   doctorId,
   saleDate,
   salesRows,
@@ -44,6 +45,7 @@ const InvoiceModal = ({
         patient_id: patientId,
         doctor_id: doctorId,
         sale_date: saleDate,
+        invoice: invoiceNumber,
       }));
 
       await Promise.all(salesData.map((row) => saleService.createServicesSale(row)));
@@ -66,7 +68,7 @@ const InvoiceModal = ({
     <Modal open={open} onClose={onClose}>
       <Box sx={{ width: 600, p: 4, backgroundColor: "white", mx: "auto", mt: 10 }}>
         <Typography variant="h6" gutterBottom>
-          Invoice Summary
+          Invoice # {invoiceNumber}
         </Typography>
         <Divider sx={{ mb: 2 }} />
         

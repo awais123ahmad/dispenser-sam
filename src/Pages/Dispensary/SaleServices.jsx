@@ -35,6 +35,7 @@ const SaleServices = () => {
   const [searchData, setSearchData] = useState("");
   const [selectedPatient, setSelectedPatient] = useState("");
   const [selectedPatientId, setSelectedPatientId] = useState(null);
+  const [invoiceNumber, setInvoiceNumber] = useState("");
 
   const [saleDate, setSaleDate] = useState(
     new Date().toISOString().split("T")[0] // Set current date as default
@@ -249,7 +250,7 @@ const SaleServices = () => {
               </FormControl>
             </Grid>
 
-            <Grid item xs={4}>
+            <Grid item xs={2}>
               <TextField
                 label="Sale Date"
                 type="date"
@@ -257,6 +258,18 @@ const SaleServices = () => {
                 value={saleDate}
                 onChange={(e) => setSaleDate(e.target.value)}
                 InputLabelProps={{ shrink: true }}
+                required
+              />
+            </Grid>
+
+            <Grid item xs={2}>
+              <TextField
+                label="Invoice Number"
+                type="text"
+                fullWidth
+                value={invoiceNumber}
+                onChange={(e) => setInvoiceNumber(e.target.value)}
+                placeholder="Enter Invoice Number"
                 required
               />
             </Grid>
@@ -352,6 +365,7 @@ const SaleServices = () => {
         })}
         patientId={selectedPatientId}
         doctorId={selectedDoctor}
+        invoiceNumber={invoiceNumber}
         saleDate={saleDate}
         salesRows={salesRows}
       />

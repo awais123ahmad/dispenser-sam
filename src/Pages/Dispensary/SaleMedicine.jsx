@@ -35,6 +35,7 @@ const SaleMedicine = () => {
   const [searchData, setSearchData] = useState("");
   const [selectedPatient, setSelectedPatient] = useState("");
   const [selectedPatientId, setSelectedPatientId] = useState(null);
+  const [invoiceNumber, setInvoiceNumber] = useState("");
 
   const [saleDate, setSaleDate] = useState(
     new Date().toISOString().split("T")[0] // Set current date as default
@@ -287,7 +288,7 @@ const SaleMedicine = () => {
               </FormControl>
             </Grid>
 
-            <Grid item xs={4}>
+            <Grid item xs={2}>
               <TextField
                 label="Sale Date"
                 type="date"
@@ -298,77 +299,87 @@ const SaleMedicine = () => {
                 required
               />
             </Grid>
+
+            <Grid item xs={2}>
+              <TextField
+                label="Invoice Number"
+                type="text"
+                fullWidth
+                value={invoiceNumber}
+                onChange={(e) => setInvoiceNumber(e.target.value)}
+                placeholder="Enter Invoice Number"
+                required
+              />
+            </Grid>
           </Grid>
 
           <Divider
             sx={{ my: 3, borderBottomWidth: 1, backgroundColor: "black" }}
           />
 
-          
-            {salesRows.map((row, index) => (
-              <Grid container spacing={3} key={index} className="my-[20px]">
-                <Grid item xs={4}>
-                  <FormControl fullWidth>
-                    <InputLabel>Medicine Name</InputLabel>
-                    <Select
-                      label="Medicine Name"
-                      value={row.stock_id}
-                      onChange={(e) =>
-                        handleRowChange(index, "stock_id", e.target.value)
-                      }
-                      required
-                    >
-                      {medicineData.map((medicine) => (
-                        <MenuItem key={medicine.id} value={medicine.id}>
-                          {medicine.medicine_name}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                </Grid>
-
-                <Grid item xs={2}>
-                  <TextField
-                    label="Quantity"
-                    type="number"
-                    fullWidth
-                    value={row.quantity}
+          {salesRows.map((row, index) => (
+            <Grid container spacing={3} key={index} className="my-[20px]">
+              <Grid item xs={4}>
+                <FormControl fullWidth>
+                  <InputLabel>Medicine Name</InputLabel>
+                  <Select
+                    label="Medicine Name"
+                    value={row.stock_id}
                     onChange={(e) =>
-                      handleRowChange(index, "quantity", e.target.value)
+                      handleRowChange(index, "stock_id", e.target.value)
                     }
                     required
-                  />
-                </Grid>
-
-                <Grid item xs={2}>
-                  <TextField
-                    label="Unit Price"
-                    type="number"
-                    fullWidth
-                    value={row.unit_price}
-                    onChange={(e) =>
-                      handleRowChange(index, "unit_price", e.target.value)
-                    }
-                    required
-                  />
-                </Grid>
-
-                <Grid item xs={12}>
-                  <IconButton color="primary" onClick={handleAddRow}>
-                    <Add />
-                  </IconButton>
-                  {salesRows.length > 1 && (
-                    <IconButton
-                      color="secondary"
-                      onClick={() => handleRemoveRow(index)}
-                    >
-                      <Remove />
-                    </IconButton>
-                  )}
-                </Grid>
+                  >
+                    {medicineData.map((medicine) => (
+                      <MenuItem key={medicine.id} value={medicine.id}>
+                        {medicine.medicine_name}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
               </Grid>
-            ))}
-         
+
+              <Grid item xs={2}>
+                <TextField
+                  label="Quantity"
+                  type="number"
+                  fullWidth
+                  value={row.quantity}
+                  onChange={(e) =>
+                    handleRowChange(index, "quantity", e.target.value)
+                  }
+                  required
+                />
+              </Grid>
+
+              <Grid item xs={2}>
+                <TextField
+                  label="Unit Price"
+                  type="number"
+                  fullWidth
+                  value={row.unit_price}
+                  onChange={(e) =>
+                    handleRowChange(index, "unit_price", e.target.value)
+                  }
+                  required
+                />
+              </Grid>
+
+              <Grid item xs={12}>
+                <IconButton color="primary" onClick={handleAddRow}>
+                  <Add />
+                </IconButton>
+                {salesRows.length > 1 && (
+                  <IconButton
+                    color="secondary"
+                    onClick={() => handleRemoveRow(index)}
+                  >
+                    <Remove />
+                  </IconButton>
+                )}
+              </Grid>
+            </Grid>
+          ))}
 
           <div className="text-center my-[30px]">
             <Button type="submit" variant="contained" color="primary">
@@ -385,13 +396,12 @@ const SaleMedicine = () => {
           doctors.find((doc) => doc.id === selectedDoctor)?.name || ""
         }
         servicesName={salesRows.map((row) => {
-          const medicine = medicineData.find(
-            (med) => med.id === row.stock_id
-          );
+          const medicine = medicineData.find((med) => med.id === row.stock_id);
           return medicine ? medicine.medicine_name : "N/A"; // Default to "N/A" if no service is found
         })}
         patientId={selectedPatientId}
         doctorId={selectedDoctor}
+        invoiceNumber={invoiceNumber}
         saleDate={saleDate}
         salesRows={salesRows}
       />
