@@ -12,7 +12,7 @@ const MedicineInvoiceModal = ({
   servicesName,
   patientId,
   doctorId,
-  invoiceNumber,
+  invoiceId,
   saleDate,
   salesRows,
 }) => {
@@ -30,6 +30,7 @@ const MedicineInvoiceModal = ({
     return `${validAmount.toFixed(2)}`;
   };
   const navigate = useNavigate();
+  
 
   const handleSubmitSales = async () => {
     try {
@@ -45,7 +46,7 @@ const MedicineInvoiceModal = ({
         patient_id: patientId,
         doctor_id: doctorId,
         sale_date: saleDate,
-        //invoice: invoiceNumber,
+        invoice: invoiceId,
       }));
 
       await Promise.all(salesData.map((row) => saleService.create(row)));
@@ -66,9 +67,9 @@ const MedicineInvoiceModal = ({
 
   return (
     <Modal open={open} onClose={onClose}>
-      <Box sx={{ width: 600, p: 4, backgroundColor: "white", mx: "auto", mt: 10 }}>
+      <Box sx={{ width: 600, p: 4, height: "80vh", overflowY: "auto", backgroundColor: "white", mx: "auto", mt: 10 }}>
         <Typography variant="h6" gutterBottom>
-          Invoice Summary
+          Invoice # {invoiceId}
         </Typography>
         <Divider sx={{ mb: 2 }} />
         
