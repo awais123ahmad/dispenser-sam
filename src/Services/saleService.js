@@ -19,6 +19,15 @@ const saleService = {
         }
     },
 
+    createInvoices: async (payload) => {
+        try {
+            const response = await axiosInstance.get('/invoices/create', payload);
+            return response.data;
+        } catch (error) {
+            throw error.response.data;
+        }
+    },
+
     saveSale: async (payload) => {
         try {
             const response = await axiosInstance.post('/create/medicine/quantity', payload);

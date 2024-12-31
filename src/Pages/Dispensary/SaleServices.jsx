@@ -38,12 +38,13 @@ const SaleServices = () => {
   const [invoiceNumber, setInvoiceNumber] = useState("");
 
   const [saleDate, setSaleDate] = useState(
-    new Date().toISOString().split("T")[0] // Set current date as default
+    new Date().toISOString().split("T")[0] 
   );
   const [searchMedicineData, setSearchMedicineData] = useState("");
   const [selectedMedicine, setSelectedMedicine] = useState("");
   const [selectedMedicineId, setSelectedMedicineId] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false); // Modal state
+  const [isModalOpen, setIsModalOpen] = useState(false); 
+  const [invoiceId, setInvoiceId] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -122,13 +123,28 @@ const SaleServices = () => {
   //   }
   // };
 
-  const handleSubmit = (e) => {
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   if (!selectedPatientId) {
+  //     toast.error("Please select a patient before submitting.");
+  //     return;
+  //   }
+  //   setIsModalOpen(true); // Open the modal
+  // };
+
+  const handleSubmit = async  (e) => {
     e.preventDefault();
     if (!selectedPatientId) {
       toast.error("Please select a patient before submitting.");
       return;
     }
-    setIsModalOpen(true); // Open the modal
+    
+    const invoiceData = await saleService.createInvoices(invoiceId);
+    // Set the generated invoice ID
+    setInvoiceId(invoiceData.invoiceId);
+    console.log("Invoice ID:", invoiceId);
+    toast.success(`Invoice created successfully. ID: ${invoiceData.invoiceId}`);
+    setIsModalOpen(true); // Open the modal after successful invoice creation
   };
 
   const closeModal = () => {
@@ -262,17 +278,6 @@ const SaleServices = () => {
               />
             </Grid>
 
-            {/* <Grid item xs={2}>
-              <TextField
-                label="Invoice Number"
-                type="text"
-                fullWidth
-                value={invoiceNumber}
-                onChange={(e) => setInvoiceNumber(e.target.value)}
-                placeholder="Enter Invoice Number"
-                required
-              />
-            </Grid> */}
           </Grid>
 
           <Divider
@@ -368,7 +373,7 @@ const SaleServices = () => {
         })}
         patientId={selectedPatientId}
         doctorId={selectedDoctor}
-        invoiceNumber={invoiceNumber}
+        invoiceId={invoiceId}
         saleDate={saleDate}
         salesRows={salesRows}
       />

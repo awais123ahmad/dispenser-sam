@@ -35,7 +35,7 @@ const SaleMedicine = () => {
   const [searchData, setSearchData] = useState("");
   const [selectedPatient, setSelectedPatient] = useState("");
   const [selectedPatientId, setSelectedPatientId] = useState(null);
-  const [invoiceNumber, setInvoiceNumber] = useState("");
+
 
   const [saleDate, setSaleDate] = useState(
     new Date().toISOString().split("T")[0] // Set current date as default
@@ -45,16 +45,14 @@ const SaleMedicine = () => {
   const [selectedMedicine, setSelectedMedicine] = useState("");
   const [selectedMedicineId, setSelectedMedicineId] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [invoiceId, setInvoiceId] = useState(null);
+
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const medicines = await medicineService.fetchAll();
         setMedicineData(medicines.medicines || []);
-
-        // const patients = await patientService.fetchAllPatients();
-        // console.log("Fetched patients data:", patients); // Debug log
-        // setPatients(patients.patients || []);
 
         const doctors = await doctorService.fetchAllDoctors();
         setDoctors(doctors.doctors || []);
@@ -64,6 +62,22 @@ const SaleMedicine = () => {
     };
     fetchData();
   }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const medicines = await medicineService.fetchAll();
+        setMedicineData(medicines.medicines || []);
+
+        const doctors = await doctorService.fetchAllDoctors();
+        setDoctors(doctors.doctors || []);
+      } catch (error) {
+        toast.error("Error fetching data.");
+      }
+    };
+    fetchData();
+  }, []);
+
 
   useEffect(() => {
     const getPatients = async () => {
@@ -101,53 +115,20 @@ const SaleMedicine = () => {
     setSalesRows(salesRows.filter((_, i) => i !== index));
   };
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   try {
-  //     const dataToSubmit = salesRows.map((row) => ({
-  //       ...row,
-  //       patient_id: selectedPatientId,
-  //       doctor_id: selectedDoctor,
-  //       sale_date: saleDate,
-  //     }));
 
-  //     await Promise.all(dataToSubmit.map((row) => saleService.create(row)));
-  //     toast.success("Sales added successfully!");
-  //     navigate("/dispenser");
-  //   } catch (error) {
-  //     toast.error("Error saving sales.");
-  //   }
-  // };
-
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   if (!selectedPatientId) {
-  //     toast.error("Please select a patient before submitting.");
-  //     return;
-  //   }
-  //   try {
-  //     const dataToSubmit = salesRows.map((row) => ({
-  //       ...row,
-  //       patient_id: selectedPatientId,
-  //       doctor_id: selectedDoctor,
-  //       sale_date: saleDate,
-  //     }));
-
-  //     await Promise.all(dataToSubmit.map((row) => saleService.create(row)));
-  //     toast.success("Sales added successfully!");
-  //     navigate("/dispenser");
-  //   } catch (error) {
-  //     toast.error("Error saving sales.");
-  //   }
-  // };
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async  (e) => {
     e.preventDefault();
     if (!selectedPatientId) {
       toast.error("Please select a patient before submitting.");
       return;
     }
-    setIsModalOpen(true); // Open the modal
+    
+    const invoiceData = await saleService.createInvoices(invoiceId);
+    // Set the generated invoice ID
+    setInvoiceId(invoiceData.invoiceId);
+    console.log("Invoice ID:", invoiceId);
+    toast.success(`Invoice created successfully. ID: ${invoiceData.invoice_id}`);
+    setIsModalOpen(true); // Open the modal after successful invoice creation
   };
 
   const closeModal = () => {
@@ -180,7 +161,7 @@ const SaleMedicine = () => {
     <>
       <form onSubmit={handleSubmit} className="w-[90%] m-auto">
         <h1 className="m-[30px] text-center font-[700] text-[20px]">
-          Record Sales
+          Record Medicine Sales
         </h1>
         <div className="mt-10">
           <Grid container spacing={3} className="my-[20px] mb-">
@@ -404,9 +385,9 @@ const SaleMedicine = () => {
         })}
         patientId={selectedPatientId}
         doctorId={selectedDoctor}
-        invoiceNumber={invoiceNumber}
         saleDate={saleDate}
         salesRows={salesRows}
+        invoiceId={invoiceId}
       />
     </>
   );
