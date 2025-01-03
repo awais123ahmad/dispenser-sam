@@ -101,37 +101,6 @@ const SaleServices = () => {
     setSalesRows(salesRows.filter((_, i) => i !== index));
   };
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   if (!selectedPatientId) {
-  //     toast.error("Please select a patient before submitting.");
-  //     return;
-  //   }
-  //   try {
-  //     const dataToSubmit = salesRows.map((row) => ({
-  //       ...row,
-  //       patient_id: selectedPatientId,
-  //       doctor_id: selectedDoctor,
-  //       sale_date: saleDate,
-  //     }));
-
-  //     await Promise.all(dataToSubmit.map((row) => saleService.create(row)));
-  //     toast.success("Sales added successfully!");
-  //     navigate("/dispenser");
-  //   } catch (error) {
-  //     toast.error("Error saving sales.");
-  //   }
-  // };
-
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   if (!selectedPatientId) {
-  //     toast.error("Please select a patient before submitting.");
-  //     return;
-  //   }
-  //   setIsModalOpen(true); // Open the modal
-  // };
-
   const handleSubmit = async  (e) => {
     e.preventDefault();
     if (!selectedPatientId) {

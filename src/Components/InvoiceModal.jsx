@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, {useRef} from "react";
 import { Modal, Box, Typography, Grid, Divider, Button, Table, TableHead, TableBody, TableRow, TableCell } from "@mui/material";
 import toast from "react-hot-toast";
 import saleService from "../Services/saleService";
@@ -26,6 +26,7 @@ const InvoiceModal = ({
   };
 
   const navigate = useNavigate();
+    const receiptRef = useRef(null);
 
   const handleSubmitSales = async () => {
     try {
@@ -52,6 +53,32 @@ const InvoiceModal = ({
       toast.error("Error submitting sales.");
     }
   };
+
+  const handlePrint = () => {
+    //const receiptContent = receiptRef.current.innerHTML;
+    const receiptContent = receiptRef.current
+      ? receiptRef.current.innerHTML.replace(/undefined|null|blank/g, "")
+      : "";
+    const printWindow = window.open("", "_blank", "width=400,height=600");
+    printWindow.document.write(`
+      <html>
+      <head>
+        <style>
+          body { font-family: Calibri, sans-serif; font-size: 12px; margin: 0; padding: 0;}
+          .receipt-container { width: 300px; margin: 0 auto; padding: 5px;}
+          table { width: 100%; border-collapse: collapse; }
+          th, td { text-align: left; padding: 4px; }
+          th { border-bottom: 1px solid #000; }
+        </style>
+      </head>
+      <body onload="window.print(); window.close();">
+        ${receiptContent}
+      </body>
+      </html>
+    `);
+    printWindow.document.close();
+  };
+
 
   const handleClose = () => {
     onClose();
@@ -127,11 +154,65 @@ const InvoiceModal = ({
             <Button variant="outlined" color="secondary" onClick={handleClose}>
               Close
             </Button>
+            <Button
+                          variant="contained"
+                          color="success"
+                          onClick={handlePrint}
+                          sx={{ ml: 2 }}
+                        >
+                          Print POS Receipt
+                        </Button>
           </Grid>
         </Grid>
+        <div ref={receiptRef} className="hidden">
+          <div className="receipt-container w-[3.5in] font-calibri text-[10px] mx-auto">
+            <h3 className="text-lg text-center font-bold">
+              Said Ahmed Memorial Medical Centre
+            </h3>
+            <h4 className="text-lg mb-2">Invoice # {invoiceId || "N/A"}</h4>
+            <p className="text-sm">
+              <strong>Patient:</strong> {patientName || "N/A"}
+            </p>
+            <p className="text-sm">
+              <strong>Sale Date:</strong> {saleDate || "N/A"}
+            </p>
+            <hr className="my-2 border-gray-300" />
+            <table className="w-full text-lg border-collapse">
+              <thead>
+                <tr>
+                  <th className="text-left text-lg">Name</th>
+                  <th className="text-left text-lg">Qty</th>
+                  <th className="text-right text-lg">Unit Price</th>
+                  <th className="text-right text-lg">Total</th>
+                </tr>
+              </thead>
+              <tbody>
+                {salesRows.map((row, index) => (
+                  <tr key={index}>
+                    <td className=" text-lg">{servicesName[index] || "N/A"}</td>
+                    <td className=" text-lg">{row.quantity || "0"}</td>
+                    <td className=" text-right text-lg">
+                      {formatCurrency(row.unit_price || 0)}
+                    </td>
+                    <td className=" text-right text-lg">
+                      {formatCurrency(
+                        (row.quantity || 0) * (row.unit_price || 0)
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <hr className="my-2 border-gray-300" />
+            <h3 className="text-2xl text-right font-bold mb-2">
+              Total: {formatCurrency(calculateTotal())}
+            </h3>
+          </div>
+        </div>
       </Box>
     </Modal>
   );
 };
 
 export default InvoiceModal;
+
