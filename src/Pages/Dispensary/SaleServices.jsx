@@ -9,6 +9,7 @@ import {
   InputLabel,
   FormControl,
   IconButton,
+  Autocomplete,
 } from "@mui/material";
 import { Add, Remove } from "@mui/icons-material";
 import patientService from "../../Services/patientService";
@@ -38,12 +39,12 @@ const SaleServices = () => {
   const [invoiceNumber, setInvoiceNumber] = useState("");
 
   const [saleDate, setSaleDate] = useState(
-    new Date().toISOString().split("T")[0] 
+    new Date().toISOString().split("T")[0]
   );
   const [searchMedicineData, setSearchMedicineData] = useState("");
   const [selectedMedicine, setSelectedMedicine] = useState("");
   const [selectedMedicineId, setSelectedMedicineId] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false); 
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [invoiceId, setInvoiceId] = useState(null);
 
   useEffect(() => {
@@ -101,44 +102,13 @@ const SaleServices = () => {
     setSalesRows(salesRows.filter((_, i) => i !== index));
   };
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   if (!selectedPatientId) {
-  //     toast.error("Please select a patient before submitting.");
-  //     return;
-  //   }
-  //   try {
-  //     const dataToSubmit = salesRows.map((row) => ({
-  //       ...row,
-  //       patient_id: selectedPatientId,
-  //       doctor_id: selectedDoctor,
-  //       sale_date: saleDate,
-  //     }));
-
-  //     await Promise.all(dataToSubmit.map((row) => saleService.create(row)));
-  //     toast.success("Sales added successfully!");
-  //     navigate("/dispenser");
-  //   } catch (error) {
-  //     toast.error("Error saving sales.");
-  //   }
-  // };
-
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   if (!selectedPatientId) {
-  //     toast.error("Please select a patient before submitting.");
-  //     return;
-  //   }
-  //   setIsModalOpen(true); // Open the modal
-  // };
-
-  const handleSubmit = async  (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!selectedPatientId) {
       toast.error("Please select a patient before submitting.");
       return;
     }
-    
+
     const invoiceData = await saleService.createInvoices(invoiceId);
     // Set the generated invoice ID
     setInvoiceId(invoiceData.invoiceId);
@@ -277,7 +247,6 @@ const SaleServices = () => {
                 required
               />
             </Grid>
-
           </Grid>
 
           <Divider
@@ -286,7 +255,7 @@ const SaleServices = () => {
 
           {salesRows.map((row, index) => (
             <Grid container spacing={3} key={index} className="my-[20px]">
-              <Grid item xs={4}>
+              {/* <Grid item xs={4}>
                 <FormControl fullWidth>
                   <InputLabel>Medical Services</InputLabel>
                   <Select
@@ -303,6 +272,31 @@ const SaleServices = () => {
                       </MenuItem>
                     ))}
                   </Select>
+                </FormControl>
+              </Grid> */}
+
+              <Grid item xs={4}>
+                <FormControl fullWidth>
+                  <Autocomplete
+                    value={
+                      medicineData.find((med) => med.id === row.services_id) ||
+                      null
+                    } // Ensure the selected medicine is correctly mapped to `stock_id`
+                    onChange={(e, newValue) => {
+                      handleRowChange(
+                        index,
+                        "services_id",
+                        newValue ? newValue.id : ""
+                      ); // Update stock_id with the selected medicine's ID
+                    }}
+                    options={medicineData}
+                    getOptionLabel={(option) => option.name || ""}
+                    renderInput={(params) => (
+                      <TextField {...params} label="Medicine Name" />
+                    )}
+                    required
+                    disableClearable
+                  />
                 </FormControl>
               </Grid>
 
