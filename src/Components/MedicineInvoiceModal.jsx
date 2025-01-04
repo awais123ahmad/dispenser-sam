@@ -1,4 +1,3 @@
-
 import React, { useRef } from "react";
 import {
   Modal,
@@ -71,17 +70,26 @@ const MedicineInvoiceModal = ({
     }
   };
 
+  const formatDate = (date) => {
+    const d = new Date(date);
+    const day = String(d.getDate()).padStart(2, "0"); // Get day and pad with leading zero if needed
+    const month = String(d.getMonth() + 1).padStart(2, "0"); // Get month and pad with leading zero if needed
+    const year = d.getFullYear(); // Get full year
+
+    return `${day}-${month}-${year}`; // Return formatted date as DD-MM-YYYY
+  };
+
   const handlePrint = () => {
     //const receiptContent = receiptRef.current.innerHTML;
     const receiptContent = receiptRef.current
       ? receiptRef.current.innerHTML.replace(/undefined|null|blank/g, "")
       : "";
-    const printWindow = window.open("", "_blank", "width=400,height=600");
+    const printWindow = window.open("", "_blank", "width=600, height=600");
     printWindow.document.write(`
       <html>
       <head>
         <style>
-          body { font-family: Calibri, sans-serif; font-size: 12px; margin: 0; padding: 0;}
+          body { font-family: calibri, sans-serif; font-size: 12px; margin: 0 auto; padding: 0;}
           .receipt-container { width: 300px; margin: 0 auto; padding: 5px;}
           table { width: 100%; border-collapse: collapse; }
           th, td { text-align: left; padding: 4px; }
@@ -96,7 +104,6 @@ const MedicineInvoiceModal = ({
     printWindow.document.close();
   };
 
- 
   const handleClose = () => {
     onClose();
   };
@@ -104,7 +111,15 @@ const MedicineInvoiceModal = ({
   return (
     <Modal open={open} onClose={onClose}>
       <Box
-        sx={{ width: 600, p: 4, backgroundColor: "white", mx: "auto", mt: 10, maxHeight: "80vh", overflow: "auto", }}
+        sx={{
+          width: 600,
+          p: 4,
+          backgroundColor: "white",
+          mx: "auto",
+          mt: 10,
+          maxHeight: "80vh",
+          overflow: "auto",
+        }}
       >
         <Typography variant="h6" gutterBottom>
           Invoice # {invoiceId}
@@ -199,19 +214,22 @@ const MedicineInvoiceModal = ({
 
         {/* Hidden POS Receipt for Printing */}
         <div ref={receiptRef} className="hidden">
-          <div className="receipt-container w-[3.5in] font-calibri text-[10px] mx-auto">
-            <h3 className="text-lg text-center font-bold">
-              Said Ahmed Memorial Medical Centre
-            </h3>
-            <h4 className="text-lg mb-2">Invoice # {invoiceId || "N/A"}</h4>
+          <div className="receipt-container w-[3in] font-calibri text-[10px]">
+            <div className="flex justify-center w-full">
+              <h1 className="text-lg font-bold text-center">
+                Said Ahmed Memorial Medical Centre
+              </h1>
+            </div>
+            <h3 className="text-lg">Invoice # {invoiceId || "N/A"}</h3>
             <p className="text-sm">
               <strong>Patient:</strong> {patientName || "N/A"}
             </p>
             <p className="text-sm">
-              <strong>Sale Date:</strong> {saleDate || "N/A"}
+              <strong>Date: </strong>
+              {formatDate(saleDate) || "N/A"}
             </p>
             <hr className="my-2 border-gray-300" />
-            <table className="w-full text-lg border-collapse">
+            <table className="w-full text-lg border-collapse table-fixed">
               <thead>
                 <tr>
                   <th className="text-left text-lg">Name</th>
@@ -238,9 +256,12 @@ const MedicineInvoiceModal = ({
               </tbody>
             </table>
             <hr className="my-2 border-gray-300" />
-            <h3 className="text-2xl text-right font-bold mb-2">
-              Total: {formatCurrency(calculateTotal())}
-            </h3>
+            <div className="w-full text-right">
+              <h2 className="text-2xl font-bold">
+                Total: {formatCurrency(calculateTotal())}
+              </h2>
+              <p className="text-sm">Thank your for Your Purchase!</p>
+            </div>
           </div>
         </div>
       </Box>

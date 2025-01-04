@@ -1,6 +1,17 @@
-
-import React, {useRef} from "react";
-import { Modal, Box, Typography, Grid, Divider, Button, Table, TableHead, TableBody, TableRow, TableCell } from "@mui/material";
+import React, { useRef } from "react";
+import {
+  Modal,
+  Box,
+  Typography,
+  Grid,
+  Divider,
+  Button,
+  Table,
+  TableHead,
+  TableBody,
+  TableRow,
+  TableCell,
+} from "@mui/material";
 import toast from "react-hot-toast";
 import saleService from "../Services/saleService";
 import { useNavigate } from "react-router-dom";
@@ -18,7 +29,10 @@ const InvoiceModal = ({
   salesRows,
 }) => {
   const calculateTotal = () =>
-    salesRows.reduce((acc, row) => acc + (row.quantity * row.unit_price || 0), 0);
+    salesRows.reduce(
+      (acc, row) => acc + (row.quantity * row.unit_price || 0),
+      0
+    );
 
   const formatCurrency = (amount) => {
     const validAmount = Number(amount) || 0;
@@ -26,7 +40,7 @@ const InvoiceModal = ({
   };
 
   const navigate = useNavigate();
-    const receiptRef = useRef(null);
+  const receiptRef = useRef(null);
 
   const handleSubmitSales = async () => {
     try {
@@ -45,13 +59,24 @@ const InvoiceModal = ({
         invoice: invoiceId,
       }));
 
-      await Promise.all(salesData.map((row) => saleService.createServicesSale(row)));
+      await Promise.all(
+        salesData.map((row) => saleService.createServicesSale(row))
+      );
       toast.success("Sales submitted successfully!");
       onClose();
       navigate("/dispenser");
     } catch (error) {
       toast.error("Error submitting sales.");
     }
+  };
+
+  const formatDate = (date) => {
+    const d = new Date(date);
+    const day = String(d.getDate()).padStart(2, "0"); // Get day and pad with leading zero if needed
+    const month = String(d.getMonth() + 1).padStart(2, "0"); // Get month and pad with leading zero if needed
+    const year = d.getFullYear(); // Get full year
+
+    return `${day}-${month}-${year}`; // Return formatted date as DD-MM-YYYY
   };
 
   const handlePrint = () => {
@@ -78,7 +103,6 @@ const InvoiceModal = ({
     `);
     printWindow.document.close();
   };
-
 
   const handleClose = () => {
     onClose();
@@ -122,10 +146,18 @@ const InvoiceModal = ({
             <Table sx={{ mt: 2, minWidth: 400 }}>
               <TableHead>
                 <TableRow>
-                  <TableCell><strong>Name</strong></TableCell>
-                  <TableCell><strong>Qty</strong></TableCell>
-                  <TableCell align="right"><strong>Unit Price</strong></TableCell>
-                  <TableCell align="right"><strong>Total</strong></TableCell>
+                  <TableCell>
+                    <strong>Name</strong>
+                  </TableCell>
+                  <TableCell>
+                    <strong>Qty</strong>
+                  </TableCell>
+                  <TableCell align="right">
+                    <strong>Unit Price</strong>
+                  </TableCell>
+                  <TableCell align="right">
+                    <strong>Total</strong>
+                  </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -133,8 +165,12 @@ const InvoiceModal = ({
                   <TableRow key={index}>
                     <TableCell>{servicesName[index]}</TableCell>
                     <TableCell>{row.quantity}</TableCell>
-                    <TableCell align="right">{formatCurrency(row.unit_price)}</TableCell>
-                    <TableCell align="right">{formatCurrency(row.quantity * row.unit_price)}</TableCell>
+                    <TableCell align="right">
+                      {formatCurrency(row.unit_price)}
+                    </TableCell>
+                    <TableCell align="right">
+                      {formatCurrency(row.quantity * row.unit_price)}
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -147,37 +183,50 @@ const InvoiceModal = ({
             </Typography>
           </Grid>
 
-          <Grid item xs={12} sx={{ display: "flex", justifyContent: "center", gap: 2, mt: 3 }}>
-            <Button variant="contained" color="primary" onClick={handleSubmitSales}>
+          <Grid
+            item
+            xs={12}
+            sx={{ display: "flex", justifyContent: "center", gap: 2, mt: 3 }}
+          >
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleSubmitSales}
+            >
               Confirm Sales
             </Button>
             <Button variant="outlined" color="secondary" onClick={handleClose}>
               Close
             </Button>
             <Button
-                          variant="contained"
-                          color="success"
-                          onClick={handlePrint}
-                          sx={{ ml: 2 }}
-                        >
-                          Print POS Receipt
-                        </Button>
+              variant="contained"
+              color="success"
+              onClick={handlePrint}
+              sx={{ ml: 2 }}
+            >
+              Print POS Receipt
+            </Button>
           </Grid>
         </Grid>
+
+    
         <div ref={receiptRef} className="hidden">
-          <div className="receipt-container w-[3.5in] font-calibri text-[10px] mx-auto">
-            <h3 className="text-lg text-center font-bold">
-              Said Ahmed Memorial Medical Centre
-            </h3>
-            <h4 className="text-lg mb-2">Invoice # {invoiceId || "N/A"}</h4>
+          <div className="receipt-container w-[3in] font-calibri text-[10px]">
+            <div className="flex justify-center w-full">
+              <h1 className="text-lg font-bold text-center">
+                Said Ahmed Memorial Medical Centre
+              </h1>
+            </div>
+            <h3 className="text-lg">Invoice # {invoiceId || "N/A"}</h3>
             <p className="text-sm">
               <strong>Patient:</strong> {patientName || "N/A"}
             </p>
             <p className="text-sm">
-              <strong>Sale Date:</strong> {saleDate || "N/A"}
+              <strong>Date: </strong>
+              {formatDate(saleDate) || "N/A"}
             </p>
             <hr className="my-2 border-gray-300" />
-            <table className="w-full text-lg border-collapse">
+            <table className="w-full text-lg border-collapse table-fixed">
               <thead>
                 <tr>
                   <th className="text-left text-lg">Name</th>
@@ -204,15 +253,18 @@ const InvoiceModal = ({
               </tbody>
             </table>
             <hr className="my-2 border-gray-300" />
-            <h3 className="text-2xl text-right font-bold mb-2">
-              Total: {formatCurrency(calculateTotal())}
-            </h3>
+            <div className="w-full text-right">
+              <h2 className="text-2xl font-bold">
+                Total: {formatCurrency(calculateTotal())}
+              </h2>
+              <p className="text-sm">Thank your for Your Purchase!</p>
+            </div>
           </div>
         </div>
+
       </Box>
     </Modal>
   );
 };
 
 export default InvoiceModal;
-
