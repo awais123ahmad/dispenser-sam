@@ -9,6 +9,7 @@ import {
   InputLabel,
   FormControl,
   IconButton,
+  Autocomplete,
 } from "@mui/material";
 import { Add, Remove } from "@mui/icons-material";
 import patientService from "../../Services/patientService";
@@ -34,8 +35,8 @@ const SaleMedicine = () => {
   const navigate = useNavigate();
   const [searchData, setSearchData] = useState("");
   const [selectedPatient, setSelectedPatient] = useState("");
-  const [selectedPatientId, setSelectedPatientId] = useState(null);
 
+  const [selectedPatientId, setSelectedPatientId] = useState(null);
 
   const [saleDate, setSaleDate] = useState(
     new Date().toISOString().split("T")[0] // Set current date as default
@@ -43,11 +44,11 @@ const SaleMedicine = () => {
 
   const [searchMedicineData, setSearchMedicineData] = useState("");
   const [selectedMedicine, setSelectedMedicine] = useState("");
+
   const [selectedMedicineId, setSelectedMedicineId] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [invoiceId, setInvoiceId] = useState(null);
 
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -77,7 +78,6 @@ const SaleMedicine = () => {
     };
     fetchData();
   }, []);
-
 
   useEffect(() => {
     const getPatients = async () => {
@@ -115,19 +115,20 @@ const SaleMedicine = () => {
     setSalesRows(salesRows.filter((_, i) => i !== index));
   };
 
-
-  const handleSubmit = async  (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!selectedPatientId) {
       toast.error("Please select a patient before submitting.");
       return;
     }
-    
+
     const invoiceData = await saleService.createInvoices(invoiceId);
     // Set the generated invoice ID
     setInvoiceId(invoiceData.invoiceId);
     console.log("Invoice ID:", invoiceId);
-    toast.success(`Invoice created successfully. ID: ${invoiceData.invoice_id}`);
+    toast.success(
+      `Invoice created successfully. ID: ${invoiceData.invoice_id}`
+    );
     setIsModalOpen(true); // Open the modal after successful invoice creation
   };
 
@@ -192,8 +193,7 @@ const SaleMedicine = () => {
                           </thead>
                         </table>
                       </li>
-
-                      {/* Render Patient Data */}
+                      Render Patient Data
                       {patientss
                         .filter(
                           (patient) =>
@@ -233,22 +233,6 @@ const SaleMedicine = () => {
                   </div>
                 )}
               </FormControl>
-
-              {/* 
-          <FormControl fullWidth>
-            <InputLabel>Patient Name</InputLabel>
-            <Select
-              value={selectedPatient}
-              onChange={(e) => setSelectedPatient(e.target.value)}
-              required
-            >
-              {patientss.map((patient) => (
-                <MenuItem key={patient.patient_id} value={patient.patient_id}>
-                  {patient.full_name}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl> */}
             </Grid>
 
             <Grid item xs={4}>
@@ -280,18 +264,6 @@ const SaleMedicine = () => {
                 required
               />
             </Grid>
-
-            {/* <Grid item xs={2}>
-              <TextField
-                label="Invoice Number"
-                type="text"
-                fullWidth
-                value={invoiceNumber}
-                onChange={(e) => setInvoiceNumber(e.target.value)}
-                placeholder="Enter Invoice Number"
-                required
-              />
-            </Grid> */}
           </Grid>
 
           <Divider
@@ -300,7 +272,7 @@ const SaleMedicine = () => {
 
           {salesRows.map((row, index) => (
             <Grid container spacing={3} key={index} className="my-[20px]">
-              <Grid item xs={4}>
+              {/* <Grid item xs={4}>
                 <FormControl fullWidth>
                   <InputLabel>Medicine Name</InputLabel>
                   <Select
@@ -317,6 +289,31 @@ const SaleMedicine = () => {
                       </MenuItem>
                     ))}
                   </Select>
+                </FormControl>
+              </Grid> */}
+
+              <Grid item xs={4}>
+                <FormControl fullWidth>
+                  <Autocomplete
+                    value={
+                      medicineData.find((med) => med.id === row.stock_id) ||
+                      null
+                    } // Ensure the selected medicine is correctly mapped to `stock_id`
+                    onChange={(e, newValue) => {
+                      handleRowChange(
+                        index,
+                        "stock_id",
+                        newValue ? newValue.id : ""
+                      ); // Update stock_id with the selected medicine's ID
+                    }}
+                    options={medicineData}
+                    getOptionLabel={(option) => option.medicine_name || ""}
+                    renderInput={(params) => (
+                      <TextField {...params} label="Medicine Name" />
+                    )}
+                    required
+                    disableClearable
+                  />
                 </FormControl>
               </Grid>
 
