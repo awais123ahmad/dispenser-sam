@@ -101,6 +101,16 @@ const SaleMedicine = () => {
         updatedRows[index].unit_price = selectedMedicine.price;
       }
     }
+    if (field === "quantity") {
+      const selectedMedicine = medicineData.find(
+        (med) => med.id === updatedRows[index].stock_id
+      );
+  
+      if (selectedMedicine && parseInt(value) > selectedMedicine.quantity_in_stock) {
+        toast.error("Quantity exceeds available stock.");
+        updatedRows[index].quantity = selectedMedicine.quantity_in_stock; // Set quantity to the max available stock
+      }
+    }
     setSalesRows(updatedRows);
   };
 
@@ -186,14 +196,14 @@ const SaleMedicine = () => {
                         <table className="w-full">
                           <thead>
                             <tr>
-                              <th className="text-sm font-bold">Patient No.</th>
-                              <th className="text-sm font-bold">Name</th>
-                              <th className="text-sm font-bold">Phone No.</th>
+                              <th className="text-sm font-bold w-12">P No.</th>
+                              <th className="text-sm font-bold w-14">Name</th>
+                              <th className="text-sm font-bold w-16">Phone No.</th>
                             </tr>
                           </thead>
                         </table>
                       </li>
-                      Render Patient Data
+                      {/* Render Patient Data */}
                       {patientss
                         .filter(
                           (patient) =>
@@ -215,13 +225,13 @@ const SaleMedicine = () => {
                             <table className="w-full">
                               <tbody>
                                 <tr>
-                                  <td className="text-sm">
+                                  <td className="text-sm w-12">
                                     {patient.patient_id}
                                   </td>
-                                  <td className="text-sm text-gray-600 px-10">
+                                  <td className="text-sm w-14 text-gray-600">
                                     {patient.full_name}
                                   </td>
-                                  <td className="text-sm text-gray-600">
+                                  <td className="text-sm w-16 text-gray-600">
                                     {patient.contact_number}
                                   </td>
                                 </tr>
@@ -272,26 +282,7 @@ const SaleMedicine = () => {
 
           {salesRows.map((row, index) => (
             <Grid container spacing={3} key={index} className="my-[20px]">
-              {/* <Grid item xs={4}>
-                <FormControl fullWidth>
-                  <InputLabel>Medicine Name</InputLabel>
-                  <Select
-                    label="Medicine Name"
-                    value={row.stock_id}
-                    onChange={(e) =>
-                      handleRowChange(index, "stock_id", e.target.value)
-                    }
-                    required
-                  >
-                    {medicineData.map((medicine) => (
-                      <MenuItem key={medicine.id} value={medicine.id}>
-                        {medicine.medicine_name}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-              </Grid> */}
-
+            
               <Grid item xs={4}>
                 <FormControl fullWidth>
                   <Autocomplete
