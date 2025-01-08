@@ -108,7 +108,7 @@ const SaleMedicine = () => {
   
       if (selectedMedicine && parseInt(value) > selectedMedicine.quantity_in_stock) {
         toast.error("Quantity exceeds available stock.");
-        updatedRows[index].quantity = selectedMedicine.quantity_in_stock; // Set quantity to the max available stock
+        updatedRows[index].quantity = selectedMedicine.quantity_in_stock;
       }
     }
     setSalesRows(updatedRows);
@@ -132,14 +132,14 @@ const SaleMedicine = () => {
       return;
     }
 
-    const invoiceData = await saleService.createInvoices(invoiceId);
-    // Set the generated invoice ID
-    setInvoiceId(invoiceData.invoiceId);
-    console.log("Invoice ID:", invoiceId);
-    toast.success(
-      `Invoice created successfully. ID: ${invoiceData.invoice_id}`
-    );
-    setIsModalOpen(true); // Open the modal after successful invoice creation
+    // const invoiceData = await saleService.createInvoices(invoiceId);
+    // // Set the generated invoice ID
+    // setInvoiceId(invoiceData.invoiceId);
+    // console.log("Invoice ID:", invoiceId);
+    // toast.success(
+    //   `Invoice created successfully. ID: ${invoiceData.invoice_id}`
+    // );
+    setIsModalOpen(true);
   };
 
   const closeModal = () => {
@@ -157,15 +157,13 @@ const SaleMedicine = () => {
   };
 
   const handleMedicineSelect = (medicine) => {
-    setSelectedMedicine(medicine); // Save the selected patient
-    setSearchMedicineData(""); // Clear search input
+    setSelectedMedicine(medicine); 
+    setSearchMedicineData(""); 
     setMedicineData((prevData) => ({
       ...prevData,
-      stock_id: medicine.id, // Store patient_id in checkupData
+      stock_id: medicine.id,
     }));
 
-    // Ensure patient name is set correctly for the dialog confirmation
-    //setSelectedPatientName(patient.full_name || "");
   };
 
   return (
@@ -369,7 +367,7 @@ const SaleMedicine = () => {
         }
         servicesName={salesRows.map((row) => {
           const medicine = medicineData.find((med) => med.id === row.stock_id);
-          return medicine ? medicine.medicine_name : "N/A"; // Default to "N/A" if no service is found
+          return medicine ? medicine.medicine_name : "N/A"; 
         })}
         patientId={selectedPatientId}
         doctorId={selectedDoctor}
