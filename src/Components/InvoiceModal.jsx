@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef ,useState } from "react";
 import {
   Modal,
   Box,
@@ -23,7 +23,6 @@ const InvoiceModal = ({
   doctorName,
   servicesName,
   patientId,
-  invoiceId,
   doctorId,
   saleDate,
   salesRows,
@@ -41,12 +40,24 @@ const InvoiceModal = ({
 
   const navigate = useNavigate();
   const receiptRef = useRef(null);
+  const [invoiceId, setInvoiceId] = useState(null);
 
   const handleSubmitSales = async () => {
     try {
       if (!salesRows.length) {
         toast.error("No sales data to submit.");
         return;
+      }
+
+      // Step 1: Create the invoice
+      let createdInvoiceId;
+      try {
+        const invoiceData = await saleService.createInvoices();
+        createdInvoiceId = invoiceData.invoiceId; // Get the created invoice ID
+        toast.success(`Invoice created successfully. ID: ${createdInvoiceId}`);
+      } catch (error) {
+        toast.error("Error creating invoice. Sales submission aborted.");
+        return; // Exit if invoice creation fails
       }
 
       const salesData = salesRows.map((row) => ({
@@ -56,9 +67,10 @@ const InvoiceModal = ({
         patient_id: patientId,
         doctor_id: doctorId,
         sale_date: saleDate,
-        invoice: invoiceId,
+        invoice: createdInvoiceId,
       }));
 
+      try {
       await Promise.all(
         salesData.map((row) => saleService.createServicesSale(row))
       );
@@ -66,9 +78,12 @@ const InvoiceModal = ({
       onClose();
       navigate("/dispenser");
     } catch (error) {
-      toast.error("Error submitting sales.");
+      toast.error("Error submitting sales data.");
     }
-  };
+  } catch (error) {
+    toast.error("Unexpected error occurred.");
+  }
+};
 
   const formatDate = (date) => {
     const d = new Date(date);
@@ -124,7 +139,7 @@ const InvoiceModal = ({
         }}
       >
         <Typography variant="h6" gutterBottom>
-          Invoice# {invoiceId}
+          Invoice 
         </Typography>
         <Divider sx={{ mb: 2 }} />
 
