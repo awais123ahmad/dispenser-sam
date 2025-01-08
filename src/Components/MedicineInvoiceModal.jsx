@@ -171,7 +171,7 @@ const MedicineInvoiceModal = ({
         }}
       >
         <Typography variant="h6" gutterBottom>
-          Invoice # {invoiceId}
+          Invoice
         </Typography>
         <Divider sx={{ mb: 2 }} />
 

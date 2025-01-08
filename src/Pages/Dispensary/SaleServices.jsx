@@ -109,11 +109,11 @@ const SaleServices = () => {
       return;
     }
 
-    const invoiceData = await saleService.createInvoices(invoiceId);
-    // Set the generated invoice ID
-    setInvoiceId(invoiceData.invoiceId);
-    console.log("Invoice ID:", invoiceId);
-    toast.success(`Invoice created successfully. ID: ${invoiceData.invoiceId}`);
+    // const invoiceData = await saleService.createInvoices(invoiceId);
+    // // Set the generated invoice ID
+    // setInvoiceId(invoiceData.invoiceId);
+    // console.log("Invoice ID:", invoiceId);
+    // toast.success(`Invoice created successfully. ID: ${invoiceData.invoiceId}`);
     setIsModalOpen(true); // Open the modal after successful invoice creation
   };
 
