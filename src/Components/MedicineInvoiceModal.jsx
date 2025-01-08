@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import {
   Modal,
   Box,
@@ -24,12 +24,12 @@ const MedicineInvoiceModal = ({
   servicesName,
   patientId,
   doctorId,
-  invoiceId,
   saleDate,
   salesRows,
 }) => {
   const receiptRef = useRef(null);
   const navigate = useNavigate();
+  const [invoiceId, setInvoiceId] = useState(null);
 
   // Calculate the total amount
   const calculateTotal = () =>
@@ -44,13 +44,55 @@ const MedicineInvoiceModal = ({
     return `${validAmount.toFixed(2)}`;
   };
 
+  // const handleSubmitSales = async () => {
+  //   try {
+  //     if (!salesRows.length) {
+  //       toast.error("No sales data to submit.");
+  //       return;
+  //     }
+
+  //     const invoiceData = await saleService.createInvoices(invoiceId);
+  //     setInvoiceId(invoiceData.invoiceId); // Update invoice ID
+  //     toast.success(`Invoice created successfully. ID: ${invoiceData.invoiceId}`);
+
+  //     const salesData = salesRows.map((row) => ({
+  //       stock_id: row.stock_id,
+  //       quantity: parseInt(row.quantity, 10),
+  //       unit_price: parseFloat(row.unit_price),
+  //       patient_id: patientId,
+  //       doctor_id: doctorId,
+  //       sale_date: saleDate,
+  //       invoice: invoiceId,
+  //     }));
+
+  //     await Promise.all(salesData.map((row) => saleService.create(row)));
+  //     toast.success("Sales submitted successfully!");
+  //     onClose();
+  //     navigate("/dispenser");
+  //   } catch (error) {
+  //     toast.error("Error submitting sales.");
+  //   }
+  // };
+
   const handleSubmitSales = async () => {
     try {
       if (!salesRows.length) {
         toast.error("No sales data to submit.");
         return;
       }
-
+  
+      // Step 1: Create the invoice
+      let createdInvoiceId;
+      try {
+        const invoiceData = await saleService.createInvoices();
+        createdInvoiceId = invoiceData.invoiceId; // Get the created invoice ID
+        toast.success(`Invoice created successfully. ID: ${createdInvoiceId}`);
+      } catch (error) {
+        toast.error("Error creating invoice. Sales submission aborted.");
+        return; // Exit if invoice creation fails
+      }
+  
+      // Step 2: Prepare sales data with the created invoice ID
       const salesData = salesRows.map((row) => ({
         stock_id: row.stock_id,
         quantity: parseInt(row.quantity, 10),
@@ -58,17 +100,24 @@ const MedicineInvoiceModal = ({
         patient_id: patientId,
         doctor_id: doctorId,
         sale_date: saleDate,
-        invoice: invoiceId,
+        invoice: createdInvoiceId, // Use the newly created invoice ID
       }));
-
-      await Promise.all(salesData.map((row) => saleService.create(row)));
-      toast.success("Sales submitted successfully!");
-      onClose();
-      navigate("/dispenser");
+  
+      // Step 3: Submit the sales data
+      try {
+        await Promise.all(salesData.map((row) => saleService.create(row)));
+        toast.success("Sales submitted successfully!");
+        onClose(); // Close the modal
+        navigate("/dispenser"); // Navigate to the dispenser page
+      } catch (error) {
+        toast.error("Error submitting sales data.");
+      }
     } catch (error) {
-      toast.error("Error submitting sales.");
+      toast.error("Unexpected error occurred.");
     }
   };
+  
+
 
   const formatDate = (date) => {
     const d = new Date(date);

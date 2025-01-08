@@ -11,7 +11,7 @@ const doctorService = {
     },
     fetchAllDoctors: async () => {
         try {
-            const response = await axiosInstance.get('/doctor/for/all');
+            const response = await axiosInstance.get('/doctor/all');
             return response.data;
         } catch (error) {
             throw error.response.data;
@@ -33,14 +33,7 @@ const doctorService = {
             throw error.response.data;
         }
     },
-    update: async (id, payload) => {
-        try {
-            const response = await axiosInstance.put(`/doctor/update/${id}`, payload);
-            return response.data;
-        } catch (error) {
-            throw error.response.data;
-        }
-    },
+
 };
 
 export default doctorService;
