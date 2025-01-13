@@ -82,6 +82,13 @@ const SaleServices = () => {
     const updatedRows = [...salesRows];
     updatedRows[index][field] = value;
 
+    if (field === "quantity") {
+      // Prevent negative or zero quantity
+      if (parseInt(value) <= 0) {
+        toast.error("Quantity must be greater than 0.");
+        return;
+      }
+    }
     if (field === "services_id") {
       const selectedMedicine = medicineData.find((med) => med.id === value);
       if (selectedMedicine) {
@@ -109,11 +116,6 @@ const SaleServices = () => {
       return;
     }
 
-    // const invoiceData = await saleService.createInvoices(invoiceId);
-    // // Set the generated invoice ID
-    // setInvoiceId(invoiceData.invoiceId);
-    // console.log("Invoice ID:", invoiceId);
-    // toast.success(`Invoice created successfully. ID: ${invoiceData.invoiceId}`);
     setIsModalOpen(true); // Open the modal after successful invoice creation
   };
 
@@ -252,28 +254,8 @@ const SaleServices = () => {
           <Divider
             sx={{ my: 3, borderBottomWidth: 1, backgroundColor: "black" }}
           />
-
           {salesRows.map((row, index) => (
             <Grid container spacing={3} key={index} className="my-[20px]">
-              {/* <Grid item xs={4}>
-                <FormControl fullWidth>
-                  <InputLabel>Medical Services</InputLabel>
-                  <Select
-                    label="Medical Services"
-                    value={row.services_id}
-                    onChange={(e) =>
-                      handleRowChange(index, "services_id", e.target.value)
-                    }
-                    required
-                  >
-                    {medicineData.map((medicine) => (
-                      <MenuItem key={medicine.id} value={medicine.id}>
-                        {medicine.name}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-              </Grid> */}
 
               <Grid item xs={4}>
                 <FormControl fullWidth>

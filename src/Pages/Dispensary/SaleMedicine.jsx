@@ -98,10 +98,14 @@ const SaleMedicine = () => {
     if (field === "stock_id") {
       const selectedMedicine = medicineData.find((med) => med.id === value);
       if (selectedMedicine) {
-        updatedRows[index].unit_price = selectedMedicine.price;
+        updatedRows[index].unit_price = selectedMedicine.discounted_price;
       }
     }
     if (field === "quantity") {
+      if (parseInt(value) <= 0) {
+        toast.error("Quantity must be greater than 0.");
+        return;
+      }
       const selectedMedicine = medicineData.find(
         (med) => med.id === updatedRows[index].stock_id
       );
